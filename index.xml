@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title/>
+    <link>https://seidatalab.github.io/</link>
+    <atom:link href="https://seidatalab.github.io/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Blog sobre o universo dos Dados - SEIDataLab
+</description>
+    <image>
+      <title/>
+      <url>https://seidatalab.github.io/images/LogoGovBa.png</url>
+      <link>https://seidatalab.github.io/</link>
+    </image>
+    <generator>Distill</generator>
+    <lastBuildDate>seg, 11 jan 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>teste</title>
+      <link>https://seidatalab.github.io/posts/2021-01-11-teste</link>
+      <description>A short description of the post.</description>
+      <guid>https://seidatalab.github.io/posts/2021-01-11-teste</guid>
+      <pubDate>seg, 11 jan 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Sobre o SeiDataLab</title>
+      <dc:creator>Rodrigo Cerqueira</dc:creator>
+      <link>https://seidatalab.github.io/posts/welcome</link>
+      <description>O que é o SEIDataLab?</description>
+      <guid>https://seidatalab.github.io/posts/welcome</guid>
+      <pubDate>qui, 07 jan 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

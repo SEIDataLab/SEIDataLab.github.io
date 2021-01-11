@@ -1,0 +1,354 @@
+library(RMySQL)
+library(DBI)
+library(RMariaDB)
+library(tidyverse)
+
+# Conectanto ao banco -----------------------------------------------------
+
+
+SAC_DB_lime <- dbConnect(RMariaDB::MariaDB(), 
+                           user='usr_sei_limeleit', 
+                           password='5sr_S23_L3m2l23t', 
+                           dbname='bd_sei_limesurvey', 
+                           host='10.28.246.66'
+                           )
+
+#dbListTables(SAC_DB_lime) - listando as tabelas do banco
+
+SAC <- tbl(SAC_DB_lime, 
+             "lime_survey_339846") %>% 
+  collect()
+
+SAC_token <- tbl(SAC_DB_lime, 
+                   "lime_tokens_339846") %>%
+  collect()
+
+dbDisconnect(SAC_DB_lime) #desconectar do banco
+
+
+# Filtrando apenas questionários completos --------------------------------
+
+SAC <- left_join(SAC, SAC_token, by = "token") %>% 
+  filter(completed != "N")
+
+
+# Questao 1 ---------------------------------------------------------------
+
+names(SAC)[8] <- "Q001"
+
+Q1 <- SAC %>% 
+  group_by(Q001) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q1$Q001 <- factor(Q1$Q001, 
+                  levels=c("A1","A2","A3","A4","A5"),
+                  labels=c("Muito Satisfeito", "Satisfeito", "Indiferente", "Insatisfeito", "Muito Insatisfeito"))
+
+# Questao 1.1 -------------------------------------------------------------
+
+names(SAC)[9:14] <- c("Q001_1", "Q001_2", "Q001_3", "Q001_4", "Q001_5", "Q001_6")
+
+Q1_1 <- SAC[9:13] %>% 
+  sapply(function(x) length(which(x=="Y"))) %>% 
+  as.data.frame() %>% 
+  rownames_to_column() %>% 
+  rename(count = ".")
+  
+Q1_1$rowname <- factor(Q1_1$rowname, 
+                       levels = c("Q001_1", "Q001_2", "Q001_3", "Q001_4", "Q001_5"),
+                       labels = c("Demora para concretizar o agendamento", 
+                                  "Falha de sistema",
+                                  "Usabilidade (ambiente não é interativo – aplicado ao SAC Digital ou auto atendimento)",
+                                  "Postura do atendente (Call Center)",
+                                  "Ausência de informação"
+                                  ))  
+  
+Q1_1_ <- SAC[14] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  count() %>% 
+  rownames_to_column() %>% 
+  rename(count = "n")
+
+Q1_1_$rowname <- factor(Q1_1_$rowname,
+                              levels = "1",
+                              labels = "Outros")
+
+Q1_1 <- rbind(Q1_1, Q1_1_)
+
+Q1_1_outros <- SAC[14] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+# Questão 2 ---------------------------------------------------------------
+
+names(SAC)[15] <- "Q002"
+names(SAC)[16:22] <- c("Q0021", "Q0021_1", "Q0021_2", "Q0021_3", "Q0021_4", "Q0021_5", "Q0021_6")
+
+Q2  <- SAC %>% 
+  group_by(Q002) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()") %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+Q2$Q002 <- factor(Q2$Q002, 
+                  levels = c("N", "Y"),
+                  labels = c("Não", "Sim"))
+
+# Questão 2.1 -------------------------------------------------------------
+
+Q2_1 <- SAC %>% 
+  group_by(Q0021) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q2_1_1 <- SAC[17:21] %>% 
+  sapply(function(x) length(which(x=="Y"))) %>% 
+  as.data.frame() %>% 
+  rownames_to_column() %>% 
+  rename(count = ".")
+
+Q2_1_1$rowname <- factor(Q2_1_1$rowname, 
+                          levels = c("Q0021_1", "Q0021_2", "Q0021_3", "Q0021_4", "Q0021_5"),
+                          labels = c("Não foi imediato (demora no atendimento)", 
+                                  "Não houve prioridade",
+                                  "Disponibilidade dos recursos tecnológicos",
+                                  "Disponibilidade dos recursos humanos",
+                                  "Adaptação do ambiente")
+                         )
+
+Q2_1_1_ <- SAC[22] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  count() %>% 
+  rownames_to_column() %>% 
+  rename(count = "n")
+
+Q2_1_1_$rowname <- factor(Q2_1_1_$rowname,
+                        levels = "1",
+                        labels = "Outros")
+
+Q2_1_1 <- rbind(Q2_1_1, Q2_1_1_)
+
+Q2_1_1_outros <- SAC[22] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+# Questão 3 ---------------------------------------------------------------
+
+names(SAC)[23] <- "Q003"
+
+Q3 <- SAC %>% 
+  group_by(Q003) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q3$Q003 <- factor(Q3$Q003, 
+                  levels=c("A1","A2","A3","A4","A5"),
+                  labels=c("Muito Satisfeito", "Satisfeito", "Indiferente", "Insatisfeito", "Muito Insatisfeito"))
+
+
+# Questao 3.1 -------------------------------------------------------------
+
+names(SAC)[24:30] <- c("Q003_1", "Q003_2", "Q003_3", "Q003_4", "Q003_5", "Q003_6", "Q003_7")
+
+Q3_1 <- SAC[24:29] %>% 
+  sapply(function(x) length(which(x=="Y"))) %>% 
+  as.data.frame() %>% 
+  rownames_to_column() %>% 
+  rename(count = ".")
+
+Q3_1$rowname <- factor(Q3_1$rowname, 
+                       levels = c("Q003_1", "Q003_2", "Q003_3", "Q003_4", "Q003_5", "Q003_6"),
+                       labels = c("Demora no atendimento (durante o atendimento)", 
+                                  "Fila desorganizada",
+                                  "Comunicação inadequada",
+                                  "Postura do atendente",
+                                  "Demora até ser atendido (muito tempo esperando)",
+                                  "Poucos funcionários"
+                       ))  
+
+Q3_1_ <- SAC[30] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  count() %>% 
+  rownames_to_column() %>% 
+  rename(count = "n")
+
+Q3_1_$rowname <- factor(Q3_1_$rowname,
+                        levels = "1",
+                        labels = "Outros")
+
+Q3_1 <- rbind(Q3_1, Q3_1_)
+
+Q3_1_outros <- SAC[30] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+# Questao 4 ---------------------------------------------------------------
+
+names(SAC)[31] <- "Q004"
+
+Q4 <- SAC %>% 
+  group_by(Q004) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q4$Q004 <- factor(Q4$Q004, 
+                  levels=c("A1","A2","A3","A4","A5"),
+                  labels=c("Muito Satisfeito", "Satisfeito", "Indiferente", "Insatisfeito", "Muito Insatisfeito"))
+
+# Questao 4.1 -------------------------------------------------------------
+
+names(SAC)[32:42] <- c("Q004_1", "Q004_2", "Q004_3", "Q004_4", "Q004_5", "Q004_6", "Q004_7", "Q004_8", "Q004_9", "Q004_10", "Q004_11")
+
+Q4_1 <- SAC[32:41] %>% 
+  sapply(function(x) length(which(x=="Y"))) %>% 
+  as.data.frame() %>% 
+  rownames_to_column() %>% 
+  rename(count = ".")
+
+Q4_1$rowname <- factor(Q4_1$rowname, 
+                       levels = c("Q004_1", "Q004_2", "Q004_3", "Q004_4", "Q004_5", "Q004_6", "Q004_7", "Q004_8", "Q004_9", "Q004_10"),
+                       labels = c("Higienização do ambiente (limpeza)", 
+                                  "Acomodação",
+                                  "Climatização (ambiente frio)",
+                                  "Climatização (ambiente quente)",
+                                  "Higienização do banheiro (limpeza)",
+                                  "Banheiro inadequado",
+                                  "Banheiro inexistente",
+                                  "Estrutura predial", 
+                                  "Falta de bebedouro",
+                                  "Programação visual"
+                       ))  
+
+Q4_1_ <- SAC[42] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  count() %>% 
+  rownames_to_column() %>% 
+  rename(count = "n")
+
+Q4_1_$rowname <- factor(Q4_1_$rowname,
+                        levels = "1",
+                        labels = "Outros")
+
+Q4_1 <- rbind(Q4_1, Q4_1_)
+
+Q4_1_outros <- SAC[42] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+
+# Questão 5 ---------------------------------------------------------------
+
+names(SAC)[43] <- "Q005"
+
+Q5 <- SAC %>% 
+  group_by(Q005) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q5$Q005 <- factor(Q5$Q005, 
+                  levels=c("A1","A2","A3","A4","A5"),
+                  labels=c("Muito Satisfeito", "Satisfeito", "Indiferente", "Insatisfeito", "Muito Insatisfeito"))
+
+# Questao 5.1 -------------------------------------------------------------
+
+names(SAC)[44:50] <- c("Q005_1", "Q005_2", "Q005_3", "Q005_4", "Q005_5", "Q005_6", "Q005_7")
+
+Q5_1 <- SAC[44:49] %>% 
+  sapply(function(x) length(which(x=="Y"))) %>% 
+  as.data.frame() %>% 
+  rownames_to_column() %>% 
+  rename(count = ".")
+
+Q5_1$rowname <- factor(Q5_1$rowname, 
+                       levels = c("Q005_1", "Q005_2", "Q005_3", "Q005_4", "Q005_5", "Q005_6"),
+                       labels = c("Falha no sistema", 
+                                  "Comunicação inadequada",
+                                  "Postura do atendente",
+                                  "Demora no atendimento",
+                                  "emora no processo (entrega de documento)",
+                                  "Poucos Funcionários"
+                       ))  
+
+Q5_1_ <- SAC[50] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  count() %>% 
+  rownames_to_column() %>% 
+  rename(count = "n")
+
+Q5_1_$rowname <- factor(Q5_1_$rowname,
+                        levels = "1",
+                        labels = "Outros")
+
+Q5_1 <- rbind(Q5_1, Q5_1_)
+
+Q5_1_outros <- SAC[50] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+
+# Questao 6 ---------------------------------------------------------------
+
+names(SAC)[51] <- "Q006"
+
+Q6 <- SAC %>% 
+  group_by(Q006) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q6$Q006 <- factor(Q6$Q006, 
+                  levels=c("A1","A2","A3"),
+                  labels=c("Masculino", "Feminino", "Transgênero/Travesti"))
+
+# Questao 6.1 -------------------------------------------------------------
+
+names(SAC)[52] <- "Q0061"
+
+Q6_1 <- SAC %>% 
+  group_by(Q0061) %>% 
+  summarise(n()) %>% 
+  rename("total" = "n()")
+
+Q6_1$Q0061 <- factor(Q6_1$Q0061, 
+                  levels=c("A1","A2","A3","A4","A5","A6","A7"),
+                  labels=c("Não tem renda", "Menos de R$ 1.045", "De R$ 1.046 até R$ 3.135", "De R$ 3.136 até R$ 6.270", "De R$ 6.271 a R$ 9.405", "De R$ 9.406 até R$ 15.675", "Mais que R$ 15.676"))
+
+# Questao 7 ---------------------------------------------------------------
+
+names(SAC)[53:55] <- c("Q007_elogio", "Q007_reclamcao", "Q007_sugestao")
+
+Q7_elogio <- SAC[53] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  lapply(as.character)
+
+Q7_reclamacao <- SAC[54] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na() %>% 
+  lapply(as.character)
+
+Q7_sugestao <- SAC[55] %>% 
+  sapply(function(x) gsub("^$", NA, x)) %>% 
+  as.data.frame() %>% 
+  tidyr::drop_na()
+
+

@@ -1,0 +1,5 @@
+---
+title: "Blog SEIDataLab"
+site: distill::distill_website
+listing: posts
+---

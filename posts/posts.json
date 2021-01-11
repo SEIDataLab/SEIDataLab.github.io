@@ -1,0 +1,31 @@
+[
+  {
+    "path": "posts/2021-01-11-teste/",
+    "title": "teste",
+    "description": "A short description of the post.",
+    "author": [],
+    "date": "2021-01-11",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-01-11T10:25:37-03:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Sobre o SeiDataLab",
+    "description": "O que é o SEIDataLab?",
+    "author": [
+      {
+        "name": "Rodrigo Cerqueira",
+        "url": "https://www.linkedin.com/in/rodrigobcerqueira/"
+      }
+    ],
+    "date": "2021-01-07",
+    "categories": [],
+    "contents": "\r\n\r\nbody {\r\ntext-align: justify}\r\nO SEIDataLab é o laboratório de dados da Superintendência de Estudos Econômicos e Sociais da Bahia (SEI), focado em análise de dados e geração de insights, auxiliando decisões de políticas públicas estaduais. Um importante instrumento na inserção do Estado da Bahia na era do Governo 4.0 e gestão pública orientada a dados.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-01-11T14:47:45-03:00",
+    "input_file": {}
+  }
+]
