@@ -14,6 +14,14 @@
     <generator>Distill</generator>
     <lastBuildDate>seg, 11 jan 2021 00:00:00 +0000</lastBuildDate>
     <item>
+      <title>Dados do ideb direto do R?</title>
+      <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
+      <link>https://seidatalab.github.io/posts/2021-01-11-idebr</link>
+      <description>Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download algu,</description>
+      <guid>https://seidatalab.github.io/posts/2021-01-11-idebr</guid>
+      <pubDate>seg, 11 jan 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
       <title>teste</title>
       <link>https://seidatalab.github.io/posts/2021-01-11-teste</link>
       <description>A short description of the post.</description>
