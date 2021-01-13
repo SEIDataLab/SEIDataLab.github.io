@@ -1,7 +1,7 @@
 ---
 title: "Dados do ideb direto do R?"
 description: |
- Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download algum.
+ Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download de nenhum arquivo.
 preview: images/idebr.png
 author:
   - name: Jonatas Silva do Espirito Santo 
