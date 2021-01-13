@@ -2,6 +2,7 @@
 title: "Envie seu artigo"
 description: |
   Contribua com artigos para o Blog.
+preview: 
 author:
   - name: SEIDataLab
     url: https://github.com/SEIDataLab

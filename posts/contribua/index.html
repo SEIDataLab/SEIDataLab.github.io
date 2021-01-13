@@ -103,14 +103,16 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Contribua com artigos para o Blog."/>
 <meta property="og:url" content="https://seidatalab.github.io/posts/contribua/"/>
+<meta property="og:image" content="https://seidatalab.github.io/posts/contribua/pexels-photo-5935794.jpeg"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content=""/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
+<meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content=": Envie seu artigo"/>
 <meta property="twitter:description" content="Contribua com artigos para o Blog."/>
 <meta property="twitter:url" content="https://seidatalab.github.io/posts/contribua/"/>
+<meta property="twitter:image" content="https://seidatalab.github.io/posts/contribua/pexels-photo-5935794.jpeg"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content=": Envie seu artigo"/>
@@ -122,12 +124,12 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Envie seu artigo"]},{"type":"character","attributes":{},"value":["Contribua com artigos para o Blog."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["SEIDataLab"]},{"type":"character","attributes":{},"value":["https://github.com/SEIDataLab"]}]}]},{"type":"character","attributes":{},"value":["01-08-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/contribua/"]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/contribua/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Envie seu artigo"]},{"type":"character","attributes":{},"value":["Contribua com artigos para o Blog."]},{"type":"character","attributes":{},"value":["pexels-photo-5935794.jpeg"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["SEIDataLab"]},{"type":"character","attributes":{},"value":["https://github.com/SEIDataLab"]}]}]},{"type":"character","attributes":{},"value":["01-08-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/contribua/"]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/contribua/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["contribua_files/anchor-4.2.2/anchor.min.js","contribua_files/bowser-1.9.3/bowser.min.js","contribua_files/distill-2.2.21/template.v2.js","contribua_files/jquery-1.11.3/jquery.min.js","contribua_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["contribua_files/anchor-4.2.2/anchor.min.js","contribua_files/bowser-1.9.3/bowser.min.js","contribua_files/distill-2.2.21/template.v2.js","contribua_files/jquery-1.11.3/jquery.min.js","contribua_files/webcomponents-2.0.0/webcomponents.js","pexels-photo-5935794.jpeg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -1845,6 +1847,7 @@ d-appendix {
 /* This must remain at the top of this file.                 */
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
 @import url("https://fonts.googleapis.com/css?family=Oswald");
+@import url('https://fonts.googleapis.com/css2?family=Alata');
 
 
 html {
@@ -1858,8 +1861,8 @@ html {
   --title-color:     #143860;
   --header-color:    rgba(20, 56, 96, 0.8);
   --body-color:      rgba(0, 0, 0, 0.8);
-  --aside-color:     rgba(20, 56, 96, 0.8);
-  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  --aside-color:     rgb(20, 56, 96);
+  --fig-cap-color:   rgb(20, 56, 96);
   /*-- Specify custom fonts ~~~ must be imported above   --*/
   --heading-font:    "Oswald", bold;
   --mono-font:       monospace;
@@ -1867,12 +1870,47 @@ html {
   --navbar-font:     "Oswald", monospace;  /* websites + blogs only */
 }
 
+
+d-article div.sourceCode code, 
+d-article pre code {
+	font-size: 0.9rem;
+	background-color:transparent;
+}
+
+d-article code {
+  font-family: "DM Mono", monospace;
+  color: #383838;
+  background: rgba(20, 56, 96, 0.1);
+  font-weight: 400;
+  font-size: 1em;
+}
+
+d-article code span.st {
+	font-size: 1rem;
+  color: #af0069;
+}
+
+d-article code span.co{
+	font-size: 1rem;
+	color: #383838;
+}
+
+d-article code span.kw{
+	font-size: 1rem;
+	color: #143860;
+}
+
+d-article code span.dt{
+	font-size: 1rem;
+	color: #f58634;
+}
+
 /*-- ARTICLE METADATA --*/
 d-byline {
   --heading-size:    0.6rem;
-  --heading-color:   rgba(0, 0, 0, 0.5);
+  --heading-color:   rgb(20, 56, 96);
   --body-size:       0.8rem;
-  --body-color:      rgba(0, 0, 0, 0.8);
+  --body-color:      rgb(20, 56, 96);
 }
 
 /*-- ARTICLE TABLE OF CONTENTS --*/
@@ -1884,9 +1922,9 @@ d-byline {
 /*-- ARTICLE APPENDIX --*/
 d-appendix {
   --heading-size:    15px;
-  --heading-color:   rgba(0, 0, 0, 0.65);
+  --heading-color:   rgb(20, 56, 96);
   --text-size:       0.8em;
-  --text-color:      rgba(0, 0, 0, 0.5);
+  --text-color:      rgb(20, 56, 96);
 }
 
 /*-- WEBSITE HEADER + FOOTER --*/
@@ -1920,8 +1958,12 @@ d-appendix {
   display: block; 
   
 }
-  
+
+.posts-list .metadata .publishedDate {
+    color: rgb(20, 56, 96);
 }
+  
+
 /*-- Additional custom styles --*/
 /* Add any additional CSS rules below                      */
 </style>
@@ -2159,6 +2201,7 @@ body {text-align: justify}
 <span id="cb1-16"><a href="#cb1-16"></a><span class="op">---</span></span></code></pre></div>
 </div>
 <p>No campo <code>author</code> devem ser colocadas as características do autor ou autores (podem ser incluídos vários autores), bem como sua afiliação. Observe também o campo da licença <code>creative_commons</code>, que marca o artigo como podendo ser compartilhado (todos os posts enviados devem ter uma licença <a href="https://creativecommons.org/licenses/by/3.0/br/"><em>Creative Commons</em></a> possibilitando o compartilhamento). Finalmente, o <code>repository_url</code> é usado para fornecer links do artigo, base de dados ou códigos hospodados no <em>GitHub</em>.</p>
+<p>Estamos aguardando para publicar o seu artigo!</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">

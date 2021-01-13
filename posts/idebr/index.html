@@ -1848,6 +1848,7 @@ d-appendix {
 /* This must remain at the top of this file.                 */
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
 @import url("https://fonts.googleapis.com/css?family=Oswald");
+@import url('https://fonts.googleapis.com/css2?family=Alata');
 
 
 html {
@@ -1861,8 +1862,8 @@ html {
   --title-color:     #143860;
   --header-color:    rgba(20, 56, 96, 0.8);
   --body-color:      rgba(0, 0, 0, 0.8);
-  --aside-color:     rgba(20, 56, 96, 0.8);
-  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  --aside-color:     rgb(20, 56, 96);
+  --fig-cap-color:   rgb(20, 56, 96);
   /*-- Specify custom fonts ~~~ must be imported above   --*/
   --heading-font:    "Oswald", bold;
   --mono-font:       monospace;
@@ -1870,12 +1871,47 @@ html {
   --navbar-font:     "Oswald", monospace;  /* websites + blogs only */
 }
 
+
+d-article div.sourceCode code, 
+d-article pre code {
+	font-size: 0.9rem;
+	background-color:transparent;
+}
+
+d-article code {
+  font-family: "DM Mono", monospace;
+  color: #383838;
+  background: rgba(20, 56, 96, 0.1);
+  font-weight: 400;
+  font-size: 1em;
+}
+
+d-article code span.st {
+	font-size: 1rem;
+  color: #af0069;
+}
+
+d-article code span.co{
+	font-size: 1rem;
+	color: #383838;
+}
+
+d-article code span.kw{
+	font-size: 1rem;
+	color: #143860;
+}
+
+d-article code span.dt{
+	font-size: 1rem;
+	color: #f58634;
+}
+
 /*-- ARTICLE METADATA --*/
 d-byline {
   --heading-size:    0.6rem;
-  --heading-color:   rgba(0, 0, 0, 0.5);
+  --heading-color:   rgb(20, 56, 96);
   --body-size:       0.8rem;
-  --body-color:      rgba(0, 0, 0, 0.8);
+  --body-color:      rgb(20, 56, 96);
 }
 
 /*-- ARTICLE TABLE OF CONTENTS --*/
@@ -1887,9 +1923,9 @@ d-byline {
 /*-- ARTICLE APPENDIX --*/
 d-appendix {
   --heading-size:    15px;
-  --heading-color:   rgba(0, 0, 0, 0.65);
+  --heading-color:   rgb(20, 56, 96);
   --text-size:       0.8em;
-  --text-color:      rgba(0, 0, 0, 0.5);
+  --text-color:      rgb(20, 56, 96);
 }
 
 /*-- WEBSITE HEADER + FOOTER --*/
@@ -1923,8 +1959,12 @@ d-appendix {
   display: block; 
   
 }
-  
+
+.posts-list .metadata .publishedDate {
+    color: rgb(20, 56, 96);
 }
+  
+
 /*-- Additional custom styles --*/
 /* Add any additional CSS rules below                      */
 </style>
