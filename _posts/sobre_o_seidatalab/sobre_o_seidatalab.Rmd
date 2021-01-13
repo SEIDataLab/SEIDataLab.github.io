@@ -1,0 +1,31 @@
+---
+title: "Sobre o SeiDataLab"
+description: |
+ O que é o SEIDataLab?
+preview: SeiDataLab.png
+author:
+  - name: Rodrigo Cerqueira 
+    url: https://www.linkedin.com/in/rodrigobcerqueira/
+    affiliation: Coordenador de Engenharia e Ciência de Dados em Pesquisa - SEI
+    affiliation_url: http://www.sei.ba.gov.br/
+date: 01-07-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+<style>
+body {text-align: justify}
+</style>
+
+O **SEIDataLab** é o laboratório de dados da Superintendência de Estudos Econômicos e Sociais da Bahia (**SEI**), focado em análise de dados e geração de insights, auxiliando decisões de políticas públicas estaduais.
+
+Criado em 2019, como um desdobramento do Grupo de Trabalho (GT) de *Business Intelligence*, *Big Data* e Ciência de Dados, publicado na Portaria nº 18 de 05 de setembro de 2019, o **SEIDataLab** surgiu, a partir da percepção da área técnica de diferentes Coordenações e Diretorias da SEI, acerca das necessidade de sistematizar conceitos, técnicas e procedimentos em Ciência de Dados e atividades correlatas no âmbito da Superintendência.
+
+O objetivo do laboratório é colocar a SEI na vanguarda da geração de insights para a formulação de políticas públicas orientadas a dados e avançar a inserção cada vez maior do Estadao da Bahia na era do Governo 4.0 e gestão pública orientada a dados.
+
+Um dos primeiros produtos lançados pelo Laboratório foi o portal [**InfoVis Bahia**](https://infovis.sei.ba.gov.br/), plataforma online de visualização interativa de dados e estatísticas socioeconômicas do Estado. Totalmente desenvolvida em ferramentas *open source*, por meio das bibliotecas [R Shiny](https://shiny.rstudio.com/), o **Infovis Bahia** fornece aplicativos de *DataVis* rápidos, intuitivos e de baixíssimo custo ao Governo Estadual.
+
+Atualmente o laboratório construiu e administra o primeiro **Data Lake**, integrado a um **Cluster de Processamento Paralelo** de grandes bases de dados do Governo do Estado, construído com o que há de mais moderno no atual cenário das ferramentas de **Big Data**, como [Apache Spark](http://spark.apache.org/), [Apache Ranger](http://ranger.apache.org/) e [Presto](https://prestodb.io/).
+
+
+

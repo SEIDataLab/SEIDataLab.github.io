@@ -1,0 +1,49 @@
+---
+title: "Envie seu artigo"
+description: |
+  Contribua com artigos para o Blog.
+author:
+  - name: SEIDataLab
+    url: https://github.com/SEIDataLab
+date: 01-08-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+<style>
+body {text-align: justify}
+</style>
+
+Nosso objetivo é divulgar trabalhos e pesquisas no âmbito da Ciência de Dados e dados públicos. Sabemos que a comunidade dos dados é bastante ativa e colaborativa, neste sentido abrimos este espaço para que a comunidade possa contibuir enviando seus artigos. Adoraríamos publicar o seu artigo por aqui!
+
+O contato para envio dos artigos pode ser feito por meio do endereço de email **seidatalab@sei.ba.gov.br**
+
+Como este blog é totalmente construído em [Distill for Markdown](https://rstudio.github.io/distill), apreciamos artigos que sejam enviados no formato *R Markdown*. Para dicas em como escrever o artigo em R Markdown sugerimos o [cheat sheet da RStudio](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+## Metadados
+
+Algumas informações sobre metadados são necessárias para a publicação de artigos no blog. Deixamos a seguir um exemplo com os metadados necessários para a publicação no blog:
+
+```{r eval = FALSE, echo = TRUE}
+---
+title: "Título do Artigo"
+description: |
+  Subtítulo: Breve descrição sobre o artigo.
+author:
+  - name: Nome e Sobrenome do autor 
+    url: url de endereço do autor (exemplo: linkedin, github ou site pessoal)
+    affiliation: vinculação institucional do autor
+    affiliation_url: url de endereço da vinculação autor (se houver)
+date: mm-dd-yyyy # data da publicação
+creative_commons: CC BY #licença creative commons
+repository_url: link do repositório (github) do código (se houver)
+output: 
+  distill::distill_article:
+    self_contained: false
+---
+
+```
+
+No campo `author` devem ser colocadas as características do autor ou autores (podem ser incluídos vários autores), bem como sua afiliação. Observe também o campo da licença `creative_commons`, que marca o artigo como podendo ser compartilhado (todos os posts enviados devem ter uma licença [*Creative Commons*](https://creativecommons.org/licenses/by/3.0/br/) possibilitando o compartilhamento). Finalmente, o `repository_url` é usado para fornecer links do artigo, base de dados ou códigos hospodados no *GitHub*.
+
+Estamos aguardando para publicar o seu artigo!

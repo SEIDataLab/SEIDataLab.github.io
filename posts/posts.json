@@ -1,6 +1,6 @@
 [
   {
-    "path": "posts/2021-01-11-idebr/",
+    "path": "posts/idebr/",
     "title": "Dados do ideb direto do R?",
     "description": "Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download de nenhum arquivo.",
     "author": [
@@ -12,24 +12,29 @@
     "date": "2021-01-11",
     "categories": [],
     "contents": "\r\n\r\nbody {\r\ntext-align: justify}\r\nidebr \r\nEste pacote disponibiliza conjuntos de dados, com informações do IDEB - índice de desenvolvimento da educação básica, com as devidas desagregações e estratificações, já no formato tidy, apropriado para geração de visualizações em ggplot2 e que podem serem utilizados em diversas aplicações no R.\r\nAtualmente disponibiliza 6 conjuntos de dados:\r\nideb_fundamental_iniciais_brasil\r\nideb_fundamental_iniciais_escolas\r\nideb_fundamental_finais_brasil\r\nideb_fundamental_finais_escolas\r\nideb_ensino_medio_brasil\r\nideb_ensino_medio_escolas\r\nO ideb_fundamental_iniciais_brasil contem como atributo os valores dos indicadores utilizados para o calculo do IDEB das séries iniciais (1º ao 5º ano) do ensino fundamental para o Brasil, como as taxas de aprovacoes (por serie) e as notas da prova SAEB. Conta tambem com o valor do IDEB e as metas para os anos de 2005, 2007, 2009, 2013, 2015, 2017 e 2019. Tambem estratifica essas informacoes pela rede de ensino.\r\nO ideb_fundamental_iniciais_escolas contem como atributo os valores dos indicadores utilizados para o calculo do IDEB das series iniciais (1º ao 5º ano) do ensino fundamental para as escolas do Brasil, como as taxas de aprovacoes (por serie) e as notas da prova SAEB. Conta tambem com o valor do IDEB e as metas para os anos de 2005, 2007, 2009, 2013, 2015, 2017 e 2019. Tambem estratifica essas informacoes pela rede de ensino.\r\nO ideb_fundamental_finais_brasil contem como atributo os valores dos indicadores utilizados para o calculo do IDEB das séries finais (6º ao 9º ano) do ensino fundamental para o Brasil, como as taxas de aprovacoes (por serie) e as notas da prova SAEB. Conta tambem com o valor do IDEB e as metas para os anos de 2005, 2007, 2009, 2013, 2015, 2017 e 2019. Tambem estratifica essas informacoes pela rede de ensino.\r\nO ideb_fundamental_finais_escolas contem como atributo os valores dos indicadores utilizados para o calculo do IDEB das series finais (6º ao 9º ano) do ensino fundamental para as escolas do Brasil, como as taxas de aprovacoes (por serie) e as notas da prova SAEB. Conta tambem com o valor do IDEB e as metas para os anos de 2005, 2007, 2009, 2013, 2015, 2017 e 2019. Tambem estratifica essas informacoes pela rede de ensino.\r\nO ideb_ensino_medio_brasil contem como atributo os valores dos indicadores utilizados para o calculo do IDEB do ensino medio para o Brasil, como as taxas de aprovacoes (por serie) e as notas da prova SAEB. Conta tambem com o valor do IDEB e as metas para os anos de 2017 e 2019. Tambem estratifica essas informacoes pela rede de ensino.\r\nO ideb_ensino_medio_escolas contem como atributo os valores dos indicadores utilizados para o calculo do IDEB do ensino medio para as escolas do Brasil, como as taxas de aprovacoes (por serie) e as notas da prova SAEB. Conta tambem com o valor do IDEB e as metas para os anos de 2017 e 2019. Tambem estratifica essas informacoes pela rede de ensino.\r\nInstalacao\r\n#Instale o pacote devtoools caso ainda não tenha instalado\r\n#install.packages(devtools)\r\n\r\n#instala o pacote idebr\r\ndevtools::install_github(\"jonates/idebr\")\r\nCarregar conjunto de dados\r\nApos a instalacao do pacote idebr para carregar um conjunto de dados basta digitar no script idebr::nomedodataset. Caso esteja no RStudio, basta digitar ideb:: e apertar a tecla tab que o autocompletar do RStudio vai mostrar todos os conjuntos de dados disponiveis no pacote idebr para que voce possa escolher, conforme imagem abaixo:\r\n\r\nExemplo 1\r\n#carrega a base do ideb do ensino médio do Brasil\r\ndf <- idebr::ideb_ensino_medio_brasil\r\n\r\n#Plot o gráfico do IDEB do Brasil, por ano e por rede de ensino.\r\nlibrary(ggplot2)\r\nggplot(data = df) +\r\n  geom_point(aes(x=ano,y=ideb,colour=rede))\r\n\r\n\r\nRoadmap\r\nEstrato\r\nFundamental - iniciais\r\nFundamental - finais\r\nEnsino Medio\r\nBrasil\r\nOk\r\nOk\r\nOk\r\nRegioes\r\n-\r\n-\r\n-\r\nUF\r\n-\r\n-\r\n-\r\nMunicipios\r\n-\r\n-\r\n-\r\nEscolas\r\nOk\r\nOk\r\nOk\r\n\r\n\r\n\r\n",
-    "preview": {},
-    "last_modified": "2021-01-13T09:48:36-03:00",
+    "preview": "posts/idebr/idebr.jpeg",
+    "last_modified": "2021-01-13T15:21:58-03:00",
     "input_file": {}
   },
   {
-    "path": "posts/2021-01-11-teste/",
-    "title": "teste",
-    "description": "A short description of the post.",
-    "author": [],
-    "date": "2021-01-11",
+    "path": "posts/contribua/",
+    "title": "Envie seu artigo",
+    "description": "Contribua com artigos para o Blog.",
+    "author": [
+      {
+        "name": "SEIDataLab",
+        "url": "https://github.com/SEIDataLab"
+      }
+    ],
+    "date": "2021-01-08",
     "categories": [],
-    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "contents": "\r\n\r\nbody {text-align: justify}\r\nNosso objetivo é divulgar trabalhos e pesquisas no âmbito da Ciência de Dados e dados públicos. Sabemos que a comunidade dos dados é bastante ativa e colaborativa, neste sentido abrimos este espaço para que a comunidade possa contibuir enviando seus artigos. Adoraríamos publicar o seu artigo por aqui!\r\nO contato para envio dos artigos pode ser feito por meio do endereço de email seidatalab@sei.ba.gov.br\r\nComo este blog é totalmente construído em Distill for Markdown, apreciamos artigos que sejam enviados no formato R Markdown. Para dicas em como escrever o artigo em R Markdown sugerimos o cheat sheet da RStudio\r\nMetadados\r\nAlgumas informações sobre metadados são necessárias para a publicação de artigos no blog. Deixamos a seguir um exemplo com os metadados necessários para a publicação no blog:\r\n\r\n---\r\ntitle: \"Título do Artigo\"\r\ndescription: |\r\n  Subtítulo: Breve descrição sobre o artigo.\r\nauthor:\r\n  - name: Nome e Sobrenome do autor \r\n    url: url de endereço do autor (exemplo: linkedin, github ou site pessoal)\r\n    affiliation: vinculação institucional do autor\r\n    affiliation_url: url de endereço da vinculação autor (se houver)\r\ndate: mm-dd-yyyy # data da publicação\r\ncreative_commons: CC BY #licença creative commons\r\nrepository_url: link do repositório (github) do código (se houver)\r\noutput: \r\n  distill::distill_article:\r\n    self_contained: false\r\n---\r\n\r\nNo campo author devem ser colocadas as características do autor ou autores (podem ser incluídos vários autores), bem como sua afiliação. Observe também o campo da licença creative_commons, que marca o artigo como podendo ser compartilhado (todos os posts enviados devem ter uma licença Creative Commons possibilitando o compartilhamento). Finalmente, o repository_url é usado para fornecer links do artigo, base de dados ou códigos hospodados no GitHub.\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-01-12T23:37:24-03:00",
+    "last_modified": "2021-01-13T13:44:00-03:00",
     "input_file": {}
   },
   {
-    "path": "posts/welcome/",
+    "path": "posts/sobre_o_seidatalab/",
     "title": "Sobre o SeiDataLab",
     "description": "O que é o SEIDataLab?",
     "author": [
@@ -40,9 +45,11 @@
     ],
     "date": "2021-01-07",
     "categories": [],
-    "contents": "\r\n\r\nbody {\r\ntext-align: justify}\r\nO SEIDataLab é o laboratório de dados da Superintendência de Estudos Econômicos e Sociais da Bahia (SEI), focado em análise de dados e geração de insights, auxiliando decisões de políticas públicas estaduais. Um importante instrumento na inserção do Estado da Bahia na era do Governo 4.0 e gestão pública orientada a dados.\r\n\r\n\r\n\r\n",
-    "preview": {},
-    "last_modified": "2021-01-12T23:37:24-03:00",
-    "input_file": {}
+    "contents": "\r\n\r\nbody {text-align: justify}\r\nO SEIDataLab é o laboratório de dados da Superintendência de Estudos Econômicos e Sociais da Bahia (SEI), focado em análise de dados e geração de insights, auxiliando decisões de políticas públicas estaduais.\r\nCriado em 2019, como um desdobramento do Grupo de Trabalho (GT) de Business Intelligence, Big Data e Ciência de Dados, publicado na Portaria nº 18 de 05 de setembro de 2019, o SEIDataLab surgiu, a partir da percepção da área técnica de diferentes Coordenações e Diretorias da SEI, acerca das necessidade de sistematizar conceitos, técnicas e procedimentos em Ciência de Dados e atividades correlatas no âmbito da Superintendência.\r\nO objetivo do laboratório é colocar a SEI na vanguarda da geração de insights para a formulação de políticas públicas orientadas a dados e avançar a inserção cada vez maior do Estadao da Bahia na era do Governo 4.0 e gestão pública orientada a dados.\r\nAtualmente o laboratório construiu e administra o primeiro Data Lake, integrado a um Cluster de Processamento Paralelo de grandes bases de dados do Governo do Estado, construído com o que há de mais moderno no atual cenário das ferramentas de Big Data, como Apache Spark, Apache Ranger e Presto.\r\n\r\n\r\n\r\n",
+    "preview": "posts/sobre_o_seidatalab/SeiDataLab.png",
+    "last_modified": "2021-01-13T14:29:22-03:00",
+    "input_file": {},
+    "preview_width": 743,
+    "preview_height": 292
   }
 ]

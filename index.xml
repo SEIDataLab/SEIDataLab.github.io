@@ -16,25 +16,28 @@
     <item>
       <title>Dados do ideb direto do R?</title>
       <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
-      <link>https://seidatalab.github.io/posts/2021-01-11-idebr</link>
+      <link>https://seidatalab.github.io/posts/idebr</link>
       <description>Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download de nenhum arquivo.</description>
-      <guid>https://seidatalab.github.io/posts/2021-01-11-idebr</guid>
+      <guid>https://seidatalab.github.io/posts/idebr</guid>
       <pubDate>seg, 11 jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://seidatalab.github.io/posts/idebr/idebr.jpeg" medium="image" type="image/jpeg"/>
     </item>
     <item>
-      <title>teste</title>
-      <link>https://seidatalab.github.io/posts/2021-01-11-teste</link>
-      <description>A short description of the post.</description>
-      <guid>https://seidatalab.github.io/posts/2021-01-11-teste</guid>
-      <pubDate>seg, 11 jan 2021 00:00:00 +0000</pubDate>
+      <title>Envie seu artigo</title>
+      <dc:creator>SEIDataLab</dc:creator>
+      <link>https://seidatalab.github.io/posts/contribua</link>
+      <description>Contribua com artigos para o Blog.</description>
+      <guid>https://seidatalab.github.io/posts/contribua</guid>
+      <pubDate>sex, 08 jan 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Sobre o SeiDataLab</title>
       <dc:creator>Rodrigo Cerqueira</dc:creator>
-      <link>https://seidatalab.github.io/posts/welcome</link>
+      <link>https://seidatalab.github.io/posts/sobre_o_seidatalab</link>
       <description>O que é o SEIDataLab?</description>
-      <guid>https://seidatalab.github.io/posts/welcome</guid>
+      <guid>https://seidatalab.github.io/posts/sobre_o_seidatalab</guid>
       <pubDate>qui, 07 jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://seidatalab.github.io/posts/sobre_o_seidatalab/SeiDataLab.png" medium="image" type="image/png" width="743" height="292"/>
     </item>
   </channel>
 </rss>

@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
-    <loc>https://seidatalab.github.io/about.html</loc>
-    <lastmod>2021-01-12T23:37:24-03:00</lastmod>
-  </url>
-  <url>
-    <loc>https://seidatalab.github.io/ideBR.html</loc>
-    <lastmod>2021-01-13T09:39:10-03:00</lastmod>
-  </url>
-  <url>
     <loc>https://seidatalab.github.io/</loc>
-    <lastmod>2021-01-12T23:37:25-03:00</lastmod>
+    <lastmod>2021-01-08T17:53:24-03:00</lastmod>
   </url>
   <url>
-    <loc>https://seidatalab.github.io/posts/2021-01-11-idebr/</loc>
-    <lastmod>2021-01-13T09:48:36-03:00</lastmod>
+    <loc>https://seidatalab.github.io/sobre.html</loc>
+    <lastmod>2021-01-13T14:51:04-03:00</lastmod>
   </url>
   <url>
-    <loc>https://seidatalab.github.io/posts/2021-01-11-teste/</loc>
-    <lastmod>2021-01-12T23:37:24-03:00</lastmod>
+    <loc>https://seidatalab.github.io/posts/idebr/</loc>
+    <lastmod>2021-01-13T15:21:58-03:00</lastmod>
   </url>
   <url>
-    <loc>https://seidatalab.github.io/posts/welcome/</loc>
-    <lastmod>2021-01-12T23:37:24-03:00</lastmod>
+    <loc>https://seidatalab.github.io/posts/contribua/</loc>
+    <lastmod>2021-01-13T13:44:00-03:00</lastmod>
+  </url>
+  <url>
+    <loc>https://seidatalab.github.io/posts/sobre_o_seidatalab/</loc>
+    <lastmod>2021-01-13T14:29:22-03:00</lastmod>
   </url>
 </urlset>

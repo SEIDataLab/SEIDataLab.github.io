@@ -12,16 +12,17 @@ navbar:
     href: index.html 
   search: false
   right:
-    - text: "Inicial"
+    - icon: fa fa-home
       href: index.html
-    - text: "Sobre"
-      href: about.html
-    - text: "InfoVis Bahia"
-      href: https://infovis.sei.ba.gov.br/
     - icon: fa fa-github
       href: https://github.com/SEIDataLab
-    - icon: fa fa-home
+    - text: "Sobre"
+      href: sobre.html
+    - text: "InfoVis Bahia"
+      href: https://infovis.sei.ba.gov.br/
+    - text: SEI
       href: http://www.sei.ba.gov.br/
+
 collections:
   posts:
     disqus:
