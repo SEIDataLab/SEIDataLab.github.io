@@ -1,13 +1,14 @@
 ---
 title: "Dados do ideb direto do R?"
 description: |
- Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download algu,
+ Com o idebr é possível acessar, de forma fácil e leve, dados do índice de desenvolvimento da educação básica, diretamente do R, sem precisar fazer download de nenhum arquivo.
 preview: images/idebr.png
 author:
   - name: Jonatas Silva do Espirito Santo 
     url: https://github.com/jonates/
-    affiliation: Diretor de Pesquisas no SEI/SEPLAN/Governo da Bahia
+    affiliation: Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia
     affiliation_url: www.sei.ba.gov.br
+    orcid_id: 0000-0002-1654-0314
 date: 01-11-2021
 output:
   distill::distill_article:
@@ -52,7 +53,7 @@ O `ideb_ensino_medio_escolas` contem como atributo os valores dos indicadores ut
 #instala o pacote idebr
 devtools::install_github("jonates/idebr")
 ```
-## Instalacao
+## Carregar conjunto de dados
 Apos a instalacao do pacote `idebr` para carregar um conjunto de dados basta digitar no script `idebr::nomedodataset`. Caso esteja no RStudio, basta digitar `ideb::` e apertar a tecla `tab` que o autocompletar do RStudio vai mostrar todos os conjuntos de dados disponiveis no pacote `idebr` para que voce possa escolher, conforme imagem abaixo:
 
 <img src="https://raw.githubusercontent.com/jonates/idebr/main/carregando_dados.png"/>
@@ -78,8 +79,8 @@ ggplot(data = df) +
 
 Estrato    | Fundamental - iniciais | Fundamental - finais | Ensino Medio             |
 ---------- | :--------------------: | :------------------: | :----------:
-Brasil     | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark:
+Brasil     | Ok | Ok | Ok
 Regioes    | - | - | -
 UF         | - | - | -
 Municipios | - | - | -
-Escolas    | :heavy\_check\_mark: | :heavy\_check\_mark: | :heavy\_check\_mark:
+Escolas    | Ok | Ok | Ok

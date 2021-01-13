@@ -6,7 +6,7 @@ preview: images/idebr.png
 author:
   - name: Jonatas Silva do Espirito Santo 
     url: https://github.com/jonates/
-    affiliation: Diretor de Pesquisas no SEI/SEPLAN/Governo da Bahia
+    affiliation: Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia
     affiliation_url: www.sei.ba.gov.br
     orcid_id: 0000-0002-1654-0314
 date: 01-11-2021
