@@ -23,7 +23,7 @@ Mesmo depois de décadas de sua implementação, é rotina entre as intituiçõe
 
 Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.
 
-Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão `.csv`:
+Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula ou outro caractere). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão `.csv`:
 
 ```
 sede,campeão,ano
@@ -42,13 +42,13 @@ Então, o formato de arquivos Apache parquet, que é um "column oriented dataset
 
 Vamos utilizar como exemplo, dados do censo escolar 2019, realizado pelo Ministério da Educação do Brasil. Os microdados, são disponibilizados para download no site do INEP - Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira.
 
-O download é de um arquivo `microdados_educacao_basica_2019` compactado com extensão `.zip`, cujo conteúdo é uma pasta contendo quatro pastas `ANEXOS`, `DADOS`, `FILTROS`, `LEIA-ME`. 
+O download é de um arquivo `microdados_educacao_basica_2019` compactado com extensão `.zip`, cujo conteúdo é uma pasta `microdados_educacao_basica_2019`contendo quatro outras pastas `ANEXOS`, `DADOS`, `FILTROS`, `LEIA-ME`. 
 
 Na pasta `DADOS` existem 15 conjuntos de dados em formato `.csv`.
 
 Por exemplo, o arquivo `MATRICULA_NORDESTE.CSV` que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja  quase 3,8 Gigabytes.
 
-Como esses arquivos estavam separado pelo caracter pipe (`|`)Este arquivo foi carregado no R utilizando a função `read_delim` da biblioteca `readr`:
+Como esses arquivos estavam separado pelo caracter pipe (`|`), foram carregados no R com a utilização da função `read_delim` da biblioteca `readr`:
 
 ``` {.r}
 matricula_NE <- readr::read_delim(
