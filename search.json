@@ -1,18 +1,26 @@
 {
   "articles": [
     {
+      "path": "about.html",
+      "title": "Sobre o blog",
+      "description": "Some additional details about the blog",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-01-12T23:37:24-03:00"
+    },
+    {
       "path": "index.html",
       "title": "Blog SEIDataLab",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-01-13T18:06:56-03:00"
+      "last_modified": "2021-01-28T13:34:55-03:00"
     },
     {
       "path": "sobre.html",
       "title": "Sobre o blog",
       "author": [],
       "contents": "\r\nBem vindo ao blog do SEIDataLab! Aqui você encontra artigos e textos sobre o mundo dos dados, como exemplos de técnicas de Ciência de Dados aplicadas a dados públicos.\r\nSe Quiser conhecer um pouco mais do SEIDataLab, o Laboratório de Dados da Superintendência de Estudos Econômicos e Sociais da Bahia (SEI), acesse o post a seguir: sobre o SEIDataLab.\r\nPara saber como contribuir com o blog, com textos e artigos sobre o mundo dos dados, confira a seção Contribua.\r\nDúvidas e sugestões entre em contato conosco através do e-mail: seidatalab@sei.ba.gov.br\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-01-13T14:51:07-03:00"
+      "last_modified": "2021-01-13T15:37:46-03:00"
     }
   ],
   "collections": ["posts/posts.json"]

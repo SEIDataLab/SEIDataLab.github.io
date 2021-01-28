@@ -1,0 +1,116 @@
+---
+title: "Parquet para grandes conjuntos de dados no R"
+description: |
+ O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.
+preview: parquet.png
+author:
+  - name: Jonatas Silva do Espirito Santo 
+    url: https://github.com/jonates/
+    affiliation: Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia
+    affiliation_url: www.sei.ba.gov.br
+    orcid_id: 0000-0002-1654-0314
+date: 01-11-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+<style>
+body {
+text-align: justify}
+</style>
+
+Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula.
+
+Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.
+
+Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão `.csv`:
+
+```
+sede,campeão,ano
+Rússia,França,2018
+Brasil,Alemanha,2014
+África do Sul,Espanha,2010
+Alemanha,Itália,2006
+Coréia do Sul e Japão,Brasil,2002
+
+```
+Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o csv é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance. 
+
+Então, o formato de arquivos Apache parquet, que é um "column oriented dataset”, ou seja, conjunto de dados orientado a colunas, se torna uma excelente alternativa ao `.csv` para gravar grandes conjuntos de dados para análise, pois, além de leitura mais rápida, a taxa de compressão desses arquivos é muito maior em relação aos `.csv` ocupando menos espaço em disco.
+
+## O conjunto de dados de exemplo
+
+Vamos utilizar como exemplo, dados do censo escolar 2019, realizado pelo Ministério da Educação do Brasil. Os microdados, são disponibilizados para download no site do INEP - Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira.
+
+O download é de um arquivo `microdados_educacao_basica_2019` compactado com extensão `.zip`, cujo conteúdo é uma pasta contendo quatro pastas `ANEXOS`, `DADOS`, `FILTROS`, `LEIA-ME`. 
+
+Na pasta `DADOS` existem 15 conjuntos de dados em formato `.csv`.
+
+Por exemplo, o arquivo `MATRICULA_NORDESTE.CSV` que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja  quase 3,8 Gigabytes.
+
+Como esses arquivos estavam separado pelo caracter pipe (`|`)Este arquivo foi carregado no R utilizando a função `read_delim` da biblioteca `readr`:
+
+``` {.r}
+matricula_NE <- readr::read_delim(
+  file = "./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.CSV",
+  delim = "|"
+)
+```
+
+O R demorou 353,08 segundos para ler esse arquivo do disco e deixar disponível em memória em um formato de dataframe.
+
+Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP
+
+dataset           | registros | campos | tamanho (KB) | tempo de leitura  (segundos)
+----------------- | -------: | :----: | ----------: | ---------------:
+DOCENTES_CO       |   892.665 | 136    |   285.874 | 18,49
+DOCENTES_NORDESTE | 3.044.057 | 136    |   964.596 | 66,19
+DOCENTES_NORTE    | 1.067.901 | 136    |   341.999 | 22,83
+DOCENTES_SUDESTE  | 4.653.852 | 136    | 1.478.987 | 84,88
+DOCENTES_SUL      | 1.879.896 | 136    |   600.905 | 37,47
+ESCOLAS           |   228.521 | 234    |   108.590 |  9,63
+
+## Apache Parquet 
+
+## Lendo e escrevendo arquivos Parquet com Apache Arrow no R
+
+Existe uma biblioteca no R, de nome `arrow`, que possui duas funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente `read_parquet` e `write_parquet`.
+
+Primeiro, abra o R e instale a biblioteca `arrow`:
+
+``` {.r}
+install.packages("arrow")
+```
+
+Com a biblioteca `arrow` já devidamente instalada, para gravar o dataframe disponível em memória em um arquivo parquet no disco, passe como argumento `x` da função `write_parquet` o nome do dataframe que deseja salvar, e no argumento `sink` o diretório e o nome do arquivo parquet:
+
+``` {.r}
+arrow::write_parquet( 
+  x = matricula_NE,
+  sink = "./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.parquet"
+)
+```
+
+Para o arquivo `MATRICULA_NORDESTE.CSV`, O R demorou 1.227,41 segundos para gravar o dataframe em um arquivo parquet no disco. E, o arquivo parquet ocupou em disco 2.008.247 KB, ou seja um compressão de 47,02%.
+
+Segue abaixo algumas estatísticas relacionadas a gravação em disco de dataframe em formato parquet: 
+
+dataset           | registros | campos | tamanho do csv (KB) | tamanho do parquet (KB) | Compressão | tempo de gravação (segundos)
+----------------- | ---------:| :----: | ---------: | -------:| :------: | ------:
+DOCENTES_CO       |   892.665 | 136    |   285.874  |  31.213 | 89,1%    |  4,91
+DOCENTES_NORDESTE | 3.044.057 | 136    |   964.596  | 122.796 | 87,3%    | 15,16
+DOCENTES_NORTE    | 1.067.901 | 136    |   341.999  |  41.464 | 87,9%    |  5,89
+DOCENTES_SUDESTE  | 4.653.852 | 136    | 1.478.987  | 151.313 | 89,8%    | 24,14
+DOCENTES_SUL      | 1.879.896 | 136    |   600.905  |  78.500 | 86,9%    | 11,20
+ESCOLAS           |   228.521 | 234    |   108.590  |  16.943 | 84,4%    |  9,63     
+
+Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento `file` da função `read_parquet` o diretório e o nome do arquivo parquet:
+
+``` {.r}
+matricula_NE_Parquet <- arrow::read_parquet(
+  file = "./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.parquet"
+)
+```
+
+## Lendo e escrevendo arquivos Parquet com Apache Spark no R
+

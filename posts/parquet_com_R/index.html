@@ -20,19 +20,18 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,82 +51,83 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #545454; font-weight: bold; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #a1024a; } /* BaseN */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #008000; } /* Char */
-code span.cn { color: #d91e18; } /* Constant */
-code span.co { color: #545454; } /* Comment */
-code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #aa5d00; } /* DataType */
-code span.dv { color: #a1024a; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #a1024a; } /* Float */
-code span.fu { color: #4254a7; } /* Function */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #545454; font-weight: bold; } /* Information */
-code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
-code span.op { color: #696969; } /* Operator */
-code span.ot { color: #007faa; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #008000; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #008000; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #008000; } /* VerbatimString */
-code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>: Envie seu artigo</title>
+<title>: Parquet para grandes conjuntos de dados no R</title>
 
-<meta property="description" itemprop="description" content="Contribua com artigos para o Blog."/>
+<meta property="description" itemprop="description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."/>
 
-<link rel="canonical" href="https://seidatalab.github.io/posts/contribua/"/>
+<link rel="canonical" href="https://seidatalab.github.io/posts/parquet_com_R/"/>
 <link rel="icon" type="image/png" href="../../images/LogoGovBa.png"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2021-01-08"/>
-<meta property="article:created" itemprop="dateCreated" content="2021-01-08"/>
-<meta name="article:author" content="SEIDataLab"/>
+<meta property="article:published" itemprop="datePublished" content="2021-01-28"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-01-28"/>
+<meta name="article:author" content="Jonatas Silva do Espirito Santo"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content=": Envie seu artigo"/>
+<meta property="og:title" content=": Parquet para grandes conjuntos de dados no R"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Contribua com artigos para o Blog."/>
-<meta property="og:url" content="https://seidatalab.github.io/posts/contribua/"/>
+<meta property="og:description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."/>
+<meta property="og:url" content="https://seidatalab.github.io/posts/parquet_com_R/"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content=""/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content=": Envie seu artigo"/>
-<meta property="twitter:description" content="Contribua com artigos para o Blog."/>
-<meta property="twitter:url" content="https://seidatalab.github.io/posts/contribua/"/>
+<meta property="twitter:title" content=": Parquet para grandes conjuntos de dados no R"/>
+<meta property="twitter:description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."/>
+<meta property="twitter:url" content="https://seidatalab.github.io/posts/parquet_com_R/"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content=": Envie seu artigo"/>
-<meta name="citation_fulltext_html_url" content="https://seidatalab.github.io/posts/contribua/"/>
-<meta name="citation_online_date" content="2021/01/08"/>
-<meta name="citation_publication_date" content="2021/01/08"/>
-<meta name="citation_author" content="SEIDataLab"/>
+<meta name="citation_title" content=": Parquet para grandes conjuntos de dados no R"/>
+<meta name="citation_fulltext_html_url" content="https://seidatalab.github.io/posts/parquet_com_R/"/>
+<meta name="citation_online_date" content="2021/01/28"/>
+<meta name="citation_publication_date" content="2021/01/28"/>
+<meta name="citation_author" content="Jonatas Silva do Espirito Santo"/>
+<meta name="citation_author_institution" content="Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Envie seu artigo"]},{"type":"character","attributes":{},"value":["Contribua com artigos para o Blog."]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["SEIDataLab"]},{"type":"character","attributes":{},"value":["https://github.com/SEIDataLab"]}]}]},{"type":"character","attributes":{},"value":["01-08-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/contribua/"]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/contribua/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Parquet para grandes conjuntos de dados no R"]},{"type":"character","attributes":{},"value":["O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."]},{"type":"character","attributes":{},"value":["parquet.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Jonatas Silva do Espirito Santo"]},{"type":"character","attributes":{},"value":["https://github.com/jonates/"]},{"type":"character","attributes":{},"value":["Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia"]},{"type":"character","attributes":{},"value":["www.sei.ba.gov.br"]},{"type":"character","attributes":{},"value":["0000-0002-1654-0314"]}]}]},{"type":"character","attributes":{},"value":["01-28-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/parquet_com_R/"]},{"type":"character","attributes":{},"value":["https://seidatalab.github.io/posts/parquet_com_R/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["contribua_files/anchor-4.2.2/anchor.min.js","contribua_files/bowser-1.9.3/bowser.min.js","contribua_files/distill-2.2.21/template.v2.js","contribua_files/jquery-1.11.3/jquery.min.js","contribua_files/webcomponents-2.0.0/webcomponents.js","pexels-photo-5935794.jpeg"]}
+  {"type":"NULL"}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2113,6 +2113,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 	color: var(--hover-color, white);
 }</style>
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
@@ -2129,7 +2130,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Envie seu artigo","description":"Contribua com artigos para o Blog.","authors":[{"author":"SEIDataLab","authorURL":"https://github.com/SEIDataLab","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-01-08T00:00:00.000-03:00","citationText":"SEIDataLab, 2021"}
+{"title":"Parquet para grandes conjuntos de dados no R","description":"O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.","authors":[{"author":"Jonatas Silva do Espirito Santo","authorURL":"https://github.com/jonates/","affiliation":"Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia","affiliationURL":"www.sei.ba.gov.br","orcidID":"0000-0002-1654-0314"}],"publishedDate":"2021-01-28T00:00:00.000-03:00","citationText":"Santo, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2161,65 +2162,215 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Envie seu artigo</h1>
+<h1>Parquet para grandes conjuntos de dados no R</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Contribua com artigos para o Blog.</p></p>
+<p><p>O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.</p></p>
 </div>
 
 <div class="d-byline">
-  SEIDataLab <a href="https://github.com/SEIDataLab" class="uri">https://github.com/SEIDataLab</a> 
+  Jonatas Silva do Espirito Santo <a href="https://github.com/jonates/" class="uri">https://github.com/jonates/</a> (Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia)www.sei.ba.gov.br
   
-<br/>01-08-2021
+<br/>01-28-2021
 </div>
 
 <div class="d-article">
 <style>
-body {text-align: justify}
+body {
+text-align: justify}
 </style>
-<p>Nosso objetivo é divulgar trabalhos e pesquisas no âmbito da Ciência de Dados e dados públicos. Sabemos que a comunidade dos dados é bastante ativa e colaborativa, neste sentido abrimos este espaço para que a comunidade possa contibuir enviando seus artigos. Adoraríamos publicar o seu artigo por aqui!</p>
-<p>O contato para envio dos artigos pode ser feito por meio do endereço de email <strong><a href="mailto:seidatalab@sei.ba.gov.br" class="email">seidatalab@sei.ba.gov.br</a></strong></p>
-<p>Como este blog é totalmente construído em <a href="https://rstudio.github.io/distill">Distill for Markdown</a>, apreciamos artigos que sejam enviados no formato <em>R Markdown</em>. Para dicas em como escrever o artigo em R Markdown sugerimos o <a href="https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">cheat sheet da RStudio</a></p>
-<h2 id="metadados">Metadados</h2>
-<p>Algumas informações sobre metadados são necessárias para a publicação de artigos no blog. Deixamos a seguir um exemplo com os metadados necessários para a publicação no blog:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">---</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>title<span class="op">:</span><span class="st"> &quot;Título do Artigo&quot;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>description<span class="op">:</span><span class="st"> </span><span class="er">|</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="st">  </span>Subtítulo<span class="op">:</span><span class="st"> </span>Breve descrição sobre o artigo.</span>
-<span id="cb1-5"><a href="#cb1-5"></a>author<span class="op">:</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="st">  </span><span class="op">-</span><span class="st"> </span>name<span class="op">:</span><span class="st"> </span>Nome e Sobrenome do autor </span>
-<span id="cb1-7"><a href="#cb1-7"></a>    url<span class="op">:</span><span class="st"> </span>url de endereço do <span class="kw">autor</span> (exemplo<span class="op">:</span><span class="st"> </span>linkedin, github ou site pessoal)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    affiliation<span class="op">:</span><span class="st"> </span>vinculação institucional do autor</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    affiliation_url<span class="op">:</span><span class="st"> </span>url de endereço da vinculação <span class="kw">autor</span> (se houver)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>date<span class="op">:</span><span class="st"> </span>mm<span class="op">-</span>dd<span class="op">-</span>yyyy <span class="co"># data da publicação</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>creative_commons<span class="op">:</span><span class="st"> </span>CC BY <span class="co">#licença creative commons</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>repository_url<span class="op">:</span><span class="st"> </span>link do repositório (github) do código (se houver)</span>
-<span id="cb1-13"><a href="#cb1-13"></a>output<span class="op">:</span><span class="st"> </span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="st">  </span>distill<span class="op">::</span>distill_article<span class="op">:</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="st">    </span>self_contained<span class="op">:</span><span class="st"> </span>false</span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="op">---</span></span></code></pre></div>
-</div>
-<p>No campo <code>author</code> devem ser colocadas as características do autor ou autores (podem ser incluídos vários autores), bem como sua afiliação. Observe também o campo da licença <code>creative_commons</code>, que marca o artigo como podendo ser compartilhado (todos os posts enviados devem ter uma licença <a href="https://creativecommons.org/licenses/by/3.0/br/"><em>Creative Commons</em></a> possibilitando o compartilhamento). Finalmente, o <code>repository_url</code> é usado para fornecer links do artigo, base de dados ou códigos hospodados no <em>GitHub</em>.</p>
-<p>Estamos aguardando para publicar o seu artigo!</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula.</p>
+<p>Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.</p>
+<p>Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão <code>.csv</code>:</p>
+<pre><code>sede,campeão,ano
+Rússia,França,2018
+Brasil,Alemanha,2014
+África do Sul,Espanha,2010
+Alemanha,Itália,2006
+Coréia do Sul e Japão,Brasil,2002
+</code></pre>
+<p>Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o csv é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance.</p>
+<p>Então, o formato de arquivos Apache parquet, que é um “column oriented dataset”, ou seja, conjunto de dados orientado a colunas, se torna uma excelente alternativa ao <code>.csv</code> para gravar grandes conjuntos de dados para análise, pois, além de leitura mais rápida, a taxa de compressão desses arquivos é muito maior em relação aos <code>.csv</code> ocupando menos espaço em disco.</p>
+<h2 id="o-conjunto-de-dados-de-exemplo">O conjunto de dados de exemplo</h2>
+<p>Vamos utilizar como exemplo, dados do censo escolar 2019, realizado pelo Ministério da Educação do Brasil. Os microdados, são disponibilizados para download no site do INEP - Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira.</p>
+<p>O download é de um arquivo <code>microdados_educacao_basica_2019</code> compactado com extensão <code>.zip</code>, cujo conteúdo é uma pasta contendo quatro pastas <code>ANEXOS</code>, <code>DADOS</code>, <code>FILTROS</code>, <code>LEIA-ME</code>.</p>
+<p>Na pasta <code>DADOS</code> existem 15 conjuntos de dados em formato <code>.csv</code>.</p>
+<p>Por exemplo, o arquivo <code>MATRICULA_NORDESTE.CSV</code> que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja quase 3,8 Gigabytes.</p>
+<p>Como esses arquivos estavam separado pelo caracter pipe (<code>|</code>)Este arquivo foi carregado no R utilizando a função <code>read_delim</code> da biblioteca <code>readr</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>matricula_NE &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_delim</span>(</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.CSV&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>)</span></code></pre></div>
+<p>O R demorou 353,08 segundos para ler esse arquivo do disco e deixar disponível em memória em um formato de dataframe.</p>
+<p>Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP</p>
+<table>
+<thead>
+<tr class="header">
+<th>dataset</th>
+<th style="text-align: right;">registros</th>
+<th style="text-align: center;">campos</th>
+<th style="text-align: right;">tamanho (KB)</th>
+<th style="text-align: right;">tempo de leitura (segundos)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DOCENTES_CO</td>
+<td style="text-align: right;">892.665</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">285.874</td>
+<td style="text-align: right;">18,49</td>
+</tr>
+<tr class="even">
+<td>DOCENTES_NORDESTE</td>
+<td style="text-align: right;">3.044.057</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">964.596</td>
+<td style="text-align: right;">66,19</td>
+</tr>
+<tr class="odd">
+<td>DOCENTES_NORTE</td>
+<td style="text-align: right;">1.067.901</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">341.999</td>
+<td style="text-align: right;">22,83</td>
+</tr>
+<tr class="even">
+<td>DOCENTES_SUDESTE</td>
+<td style="text-align: right;">4.653.852</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">1.478.987</td>
+<td style="text-align: right;">84,88</td>
+</tr>
+<tr class="odd">
+<td>DOCENTES_SUL</td>
+<td style="text-align: right;">1.879.896</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">600.905</td>
+<td style="text-align: right;">37,47</td>
+</tr>
+<tr class="even">
+<td>ESCOLAS</td>
+<td style="text-align: right;">228.521</td>
+<td style="text-align: center;">234</td>
+<td style="text-align: right;">108.590</td>
+<td style="text-align: right;">9,63</td>
+</tr>
+</tbody>
+</table>
+<h2 id="apache-parquet">Apache Parquet</h2>
+<h2 id="lendo-e-escrevendo-arquivos-parquet-com-apache-arrow-no-r">Lendo e escrevendo arquivos Parquet com Apache Arrow no R</h2>
+<p>Existe uma biblioteca no R, de nome <code>arrow</code>, que possui duas funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente <code>read_parquet</code> e <code>write_parquet</code>.</p>
+<p>Primeiro, abra o R e instale a biblioteca <code>arrow</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;arrow&quot;</span>)</span></code></pre></div>
+<p>Com a biblioteca <code>arrow</code> já devidamente instalada, para gravar o dataframe disponível em memória em um arquivo parquet no disco, passe como argumento <code>x</code> da função <code>write_parquet</code> o nome do dataframe que deseja salvar, e no argumento <code>sink</code> o diretório e o nome do arquivo parquet:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>arrow<span class="op">::</span><span class="kw">write_parquet</span>( </span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">x =</span> matricula_NE,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">sink =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.parquet&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>)</span></code></pre></div>
+<p>Para o arquivo <code>MATRICULA_NORDESTE.CSV</code>, O R demorou 1.227,41 segundos para gravar o dataframe em um arquivo parquet no disco. E, o arquivo parquet ocupou em disco 2.008.247 KB, ou seja um compressão de 47,02%.</p>
+<p>Segue abaixo algumas estatísticas relacionadas a gravação em disco de dataframe em formato parquet:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 15%" />
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>dataset</th>
+<th style="text-align: right;">registros</th>
+<th style="text-align: center;">campos</th>
+<th style="text-align: right;">tamanho do csv (KB)</th>
+<th style="text-align: right;">tamanho do parquet (KB)</th>
+<th style="text-align: center;">Compressão</th>
+<th style="text-align: right;">tempo de gravação (segundos)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DOCENTES_CO</td>
+<td style="text-align: right;">892.665</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">285.874</td>
+<td style="text-align: right;">31.213</td>
+<td style="text-align: center;">89,1%</td>
+<td style="text-align: right;">4,91</td>
+</tr>
+<tr class="even">
+<td>DOCENTES_NORDESTE</td>
+<td style="text-align: right;">3.044.057</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">964.596</td>
+<td style="text-align: right;">122.796</td>
+<td style="text-align: center;">87,3%</td>
+<td style="text-align: right;">15,16</td>
+</tr>
+<tr class="odd">
+<td>DOCENTES_NORTE</td>
+<td style="text-align: right;">1.067.901</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">341.999</td>
+<td style="text-align: right;">41.464</td>
+<td style="text-align: center;">87,9%</td>
+<td style="text-align: right;">5,89</td>
+</tr>
+<tr class="even">
+<td>DOCENTES_SUDESTE</td>
+<td style="text-align: right;">4.653.852</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">1.478.987</td>
+<td style="text-align: right;">151.313</td>
+<td style="text-align: center;">89,8%</td>
+<td style="text-align: right;">24,14</td>
+</tr>
+<tr class="odd">
+<td>DOCENTES_SUL</td>
+<td style="text-align: right;">1.879.896</td>
+<td style="text-align: center;">136</td>
+<td style="text-align: right;">600.905</td>
+<td style="text-align: right;">78.500</td>
+<td style="text-align: center;">86,9%</td>
+<td style="text-align: right;">11,20</td>
+</tr>
+<tr class="even">
+<td>ESCOLAS</td>
+<td style="text-align: right;">228.521</td>
+<td style="text-align: center;">234</td>
+<td style="text-align: right;">108.590</td>
+<td style="text-align: right;">16.943</td>
+<td style="text-align: center;">84,4%</td>
+<td style="text-align: right;">9,63</td>
+</tr>
+</tbody>
+</table>
+<p>Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento <code>file</code> da função <code>read_parquet</code> o diretório e o nome do arquivo parquet:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>matricula_NE_Parquet &lt;-<span class="st"> </span>arrow<span class="op">::</span><span class="kw">read_parquet</span>(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.parquet&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>)</span></code></pre></div>
+<h2 id="lendo-e-escrevendo-arquivos-parquet-com-apache-spark-no-r">Lendo e escrevendo arquivos Parquet com Apache Spark no R</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
     <span class="disqus-comments">
       <i class="fas fa-comments"></i>
       &nbsp;
-      <span class="disqus-comment-count" data-disqus-identifier="posts/contribua/">Comment on this article</span>
+      <span class="disqus-comment-count" data-disqus-identifier="posts/parquet_com_R/">Comment on this article</span>
     </span>
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Envie%20seu%20artigo&amp;url=https%3A%2F%2Fseidatalab.github.io%2Fposts%2Fcontribua%2F">
+      <a href="https://twitter.com/share?text=Parquet%20para%20grandes%20conjuntos%20de%20dados%20no%20R&amp;url=https%3A%2F%2Fseidatalab.github.io%2Fposts%2Fparquet_com_R%2F">
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fseidatalab.github.io%2Fposts%2Fcontribua%2F&amp;title=Envie%20seu%20artigo">
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fseidatalab.github.io%2Fposts%2Fparquet_com_R%2F&amp;title=Parquet%20para%20grandes%20conjuntos%20de%20dados%20no%20R">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fseidatalab.github.io%2Fposts%2Fcontribua%2F">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fseidatalab.github.io%2Fposts%2Fparquet_com_R%2F">
         <i class="fab fa-facebook"></i>
       </a>
     </span>
@@ -2228,8 +2379,8 @@ body {text-align: justify}
   <div id="disqus_thread"></div>
   <script>
 var disqus_config = function () {
-  this.page.url = 'https://seidatalab.github.io/posts/contribua/';
-  this.page.identifier = 'posts/contribua/';
+  this.page.url = 'https://seidatalab.github.io/posts/parquet_com_R/';
+  this.page.identifier = 'posts/parquet_com_R/';
 };
 (function() {
   var d = document, s = d.createElement('script');
@@ -2252,12 +2403,12 @@ var disqus_config = function () {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">SEIDataLab (2021, Jan. 8). : Envie seu artigo. Retrieved from https://seidatalab.github.io/posts/contribua/</pre>
+  <pre class="citation-appendix short">Santo (2021, Jan. 28). : Parquet para grandes conjuntos de dados no R. Retrieved from https://seidatalab.github.io/posts/parquet_com_R/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{seidatalab2021envie,
-  author = {SEIDataLab, },
-  title = {: Envie seu artigo},
-  url = {https://seidatalab.github.io/posts/contribua/},
+  <pre class="citation-appendix long">@misc{santo2021parquet,
+  author = {Santo, Jonatas Silva do Espirito},
+  title = {: Parquet para grandes conjuntos de dados no R},
+  url = {https://seidatalab.github.io/posts/parquet_com_R/},
   year = {2021}
 }</pre>
 </div>
