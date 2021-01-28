@@ -127,7 +127,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["parquet_files/anchor-4.2.2/anchor.min.js","parquet_files/bowser-1.9.3/bowser.min.js","parquet_files/distill-2.2.21/template.v2.js","parquet_files/header-attrs-2.6/header-attrs.js","parquet_files/jquery-1.11.3/jquery.min.js","parquet_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2181,7 +2181,7 @@ text-align: justify}
 </style>
 <p>Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula.</p>
 <p>Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.</p>
-<p>Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão <code>.csv</code>:</p>
+<p>Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula ou outro caractere). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão <code>.csv</code>:</p>
 <pre><code>sede,campeão,ano
 Rússia,França,2018
 Brasil,Alemanha,2014
@@ -2193,10 +2193,10 @@ Coréia do Sul e Japão,Brasil,2002
 <p>Então, o formato de arquivos Apache parquet, que é um “column oriented dataset”, ou seja, conjunto de dados orientado a colunas, se torna uma excelente alternativa ao <code>.csv</code> para gravar grandes conjuntos de dados para análise, pois, além de leitura mais rápida, a taxa de compressão desses arquivos é muito maior em relação aos <code>.csv</code> ocupando menos espaço em disco.</p>
 <h2 id="o-conjunto-de-dados-de-exemplo">O conjunto de dados de exemplo</h2>
 <p>Vamos utilizar como exemplo, dados do censo escolar 2019, realizado pelo Ministério da Educação do Brasil. Os microdados, são disponibilizados para download no site do INEP - Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira.</p>
-<p>O download é de um arquivo <code>microdados_educacao_basica_2019</code> compactado com extensão <code>.zip</code>, cujo conteúdo é uma pasta contendo quatro pastas <code>ANEXOS</code>, <code>DADOS</code>, <code>FILTROS</code>, <code>LEIA-ME</code>.</p>
+<p>O download é de um arquivo <code>microdados_educacao_basica_2019</code> compactado com extensão <code>.zip</code>, cujo conteúdo é uma pasta <code>microdados_educacao_basica_2019</code>contendo quatro outras pastas <code>ANEXOS</code>, <code>DADOS</code>, <code>FILTROS</code>, <code>LEIA-ME</code>.</p>
 <p>Na pasta <code>DADOS</code> existem 15 conjuntos de dados em formato <code>.csv</code>.</p>
 <p>Por exemplo, o arquivo <code>MATRICULA_NORDESTE.CSV</code> que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja quase 3,8 Gigabytes.</p>
-<p>Como esses arquivos estavam separado pelo caracter pipe (<code>|</code>)Este arquivo foi carregado no R utilizando a função <code>read_delim</code> da biblioteca <code>readr</code>:</p>
+<p>Como esses arquivos estavam separado pelo caracter pipe (<code>|</code>), foram carregados no R com a utilização da função <code>read_delim</code> da biblioteca <code>readr</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>matricula_NE &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_delim</span>(</span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.CSV&quot;</span>,</span>
 <span id="cb2-3"><a href="#cb2-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
