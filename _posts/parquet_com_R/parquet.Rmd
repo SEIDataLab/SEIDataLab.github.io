@@ -74,7 +74,7 @@ TURMAS             |  2.432.438 |  79    |   450.988 |  30,79
 MATRICULA_CO       |  3.945.797 | 103    |   975.562 |  71,89
 MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278 | 352,19
 MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161 |  94,21
-MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 | 517,55
+MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 |  93,76
 
 ## Apache Parquet 
 
@@ -114,6 +114,7 @@ TURMAS             |  2.432.438 |  79    |   450.988  |    66.316 | 85,3%    |  
 MATRICULA_CO       |  3.945.797 | 103    |   975.562  |   323.494 | 66,8%    |  20,43
 MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278  | 2.008.247 | 47,8%    | 693,41
 MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161  |   315.049 | 75,6%    |  24,05
+MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439  |   777.771 | 54,3%    |  45,86
 
 
 Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento `file` da função `read_parquet` o diretório e o nome do arquivo parquet:
