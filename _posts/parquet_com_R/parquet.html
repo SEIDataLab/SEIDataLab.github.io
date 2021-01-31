@@ -87,7 +87,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>Parquet para grandes conjuntos de dados no R</title>
 
-  <meta property="description" itemprop="description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."/>
+  <meta property="description" itemprop="description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo."/>
 
 
   <!--  https://schema.org/Article -->
@@ -98,24 +98,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Parquet para grandes conjuntos de dados no R"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."/>
+  <meta property="og:description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo."/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Parquet para grandes conjuntos de dados no R"/>
-  <meta property="twitter:description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr."/>
+  <meta property="twitter:description" content="O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo."/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Parquet para grandes conjuntos de dados no R"]},{"type":"character","attributes":{},"value":["O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.\n"]},{"type":"character","attributes":{},"value":["parquet.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Jonatas Silva do Espirito Santo"]},{"type":"character","attributes":{},"value":["https://github.com/jonates/"]},{"type":"character","attributes":{},"value":["Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia"]},{"type":"character","attributes":{},"value":["www.sei.ba.gov.br"]},{"type":"character","attributes":{},"value":["0000-0002-1654-0314"]}]}]},{"type":"character","attributes":{},"value":["01-28-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Parquet para grandes conjuntos de dados no R"]},{"type":"character","attributes":{},"value":["O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.\n"]},{"type":"character","attributes":{},"value":["parquet.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Jonatas Silva do Espirito Santo"]},{"type":"character","attributes":{},"value":["https://github.com/jonates/"]},{"type":"character","attributes":{},"value":["Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia"]},{"type":"character","attributes":{},"value":["www.sei.ba.gov.br"]},{"type":"character","attributes":{},"value":["0000-0002-1654-0314"]}]}]},{"type":"character","attributes":{},"value":["01-28-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["parquet_files/anchor-4.2.2/anchor.min.js","parquet_files/bowser-1.9.3/bowser.min.js","parquet_files/distill-2.2.21/template.v2.js","parquet_files/header-attrs-2.6/header-attrs.js","parquet_files/jquery-1.11.3/jquery.min.js","parquet_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["parquet.png","parquet_files/anchor-4.2.2/anchor.min.js","parquet_files/bowser-1.9.3/bowser.min.js","parquet_files/distill-2.2.21/template.v2.js","parquet_files/header-attrs-2.6/header-attrs.js","parquet_files/jquery-1.11.3/jquery.min.js","parquet_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1420,7 +1420,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Parquet para grandes conjuntos de dados no R","description":"O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.","authors":[{"author":"Jonatas Silva do Espirito Santo","authorURL":"https://github.com/jonates/","affiliation":"Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia","affiliationURL":"www.sei.ba.gov.br","orcidID":"0000-0002-1654-0314"}],"publishedDate":"2021-01-28T00:00:00.000-03:00","citationText":"Santo, 2021"}
+{"title":"Parquet para grandes conjuntos de dados no R","description":"O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.","authors":[{"author":"Jonatas Silva do Espirito Santo","authorURL":"https://github.com/jonates/","affiliation":"Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia","affiliationURL":"www.sei.ba.gov.br","orcidID":"0000-0002-1654-0314"}],"publishedDate":"2021-01-28T00:00:00.000-03:00","citationText":"Santo, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1433,7 +1433,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h1>Parquet para grandes conjuntos de dados no R</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.</p></p>
+<p><p>O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1557,9 +1557,16 @@ Coréia do Sul e Japão,Brasil,2002
 <td style="text-align: right;">5.198.366</td>
 <td style="text-align: center;">103</td>
 <td style="text-align: right;">1.289.161</td>
-<td style="text-align: right;">82,95</td>
+<td style="text-align: right;">77,32</td>
 </tr>
 <tr class="even">
+<td>MATRICULA_SUDESTE</td>
+<td style="text-align: right;">19.785.845</td>
+<td style="text-align: center;">103</td>
+<td style="text-align: right;">4.803.374</td>
+<td style="text-align: right;">4.740,87</td>
+</tr>
+<tr class="odd">
 <td>MATRICULA_SUL</td>
 <td style="text-align: right;">6.932.126</td>
 <td style="text-align: center;">103</td>
@@ -1568,6 +1575,7 @@ Coréia do Sul e Japão,Brasil,2002
 </tr>
 </tbody>
 </table>
+<p>Vale ressaltar que o readr não conseguiu ler o arquivo <code>MATRICULA_SUDESTE</code>, e foi feito com a biblioteca <code>arrow</code> através da função <code>read_delim_arrow</code>, cujo argumentos são os mesmos da <code>read_delim</code> do <code>readr</code>.</p>
 <h2 id="apache-parquet">Apache Parquet</h2>
 <h2 id="lendo-e-escrevendo-arquivos-parquet-com-apache-arrow-no-r">Lendo e escrevendo arquivos Parquet com Apache Arrow no R</h2>
 <p>Existe uma biblioteca no R, de nome <code>arrow</code>, que possui duas funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente <code>read_parquet</code> e <code>write_parquet</code>.</p>
@@ -1699,9 +1707,18 @@ Coréia do Sul e Japão,Brasil,2002
 <td style="text-align: right;">1.289.161</td>
 <td style="text-align: right;">315.049</td>
 <td style="text-align: center;">75,6%</td>
-<td style="text-align: right;">18,80</td>
+<td style="text-align: right;">17,50</td>
 </tr>
 <tr class="even">
+<td>MATRICULA_SUDESTE</td>
+<td style="text-align: right;">19.785.845</td>
+<td style="text-align: center;">103</td>
+<td style="text-align: right;">4.803.374</td>
+<td style="text-align: right;">1.146.767</td>
+<td style="text-align: center;">76,1%</td>
+<td style="text-align: right;">1.389,93</td>
+</tr>
+<tr class="odd">
 <td>MATRICULA_SUL</td>
 <td style="text-align: right;">6.932.126</td>
 <td style="text-align: center;">103</td>

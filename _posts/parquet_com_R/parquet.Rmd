@@ -1,7 +1,7 @@
 ---
 title: "Parquet para grandes conjuntos de dados no R"
 description: |
- O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.
+ O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.
 preview: parquet.png
 author:
   - name: Jonatas Silva do Espirito Santo 
@@ -63,18 +63,21 @@ Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar di
 
 dataset           | registros | campos | tamanho (KB) | tempo de leitura  (segundos)
 ------------------ | -------: | :----: | ----------: | ---------------:
-DOCENTES_CO        |    892.665 | 136    |   285.874 |  18,49
-DOCENTES_NORDESTE  |  3.044.057 | 136    |   964.596 |  66,19
-DOCENTES_NORTE     |  1.067.901 | 136    |   341.999 |  22,83
-DOCENTES_SUDESTE   |  4.653.852 | 136    | 1.478.987 |  84,88
-DOCENTES_SUL       |  1.879.896 | 136    |   600.905 |  37,47
-ESCOLAS            |    228.521 | 234    |   108.590 |   9,63
-GESTOR             |    187.740 |  83    |    41.668 |   3,39
-TURMAS             |  2.432.438 |  79    |   450.988 |  30,79
-MATRICULA_CO       |  3.945.797 | 103    |   975.562 |  71,89
-MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278 | 352,19
-MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161 |  82,95
-MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 |  93,76
+DOCENTES_CO        |    892.665 | 136    |   285.874 |    18,49
+DOCENTES_NORDESTE  |  3.044.057 | 136    |   964.596 |    66,19
+DOCENTES_NORTE     |  1.067.901 | 136    |   341.999 |    22,83
+DOCENTES_SUDESTE   |  4.653.852 | 136    | 1.478.987 |    84,88
+DOCENTES_SUL       |  1.879.896 | 136    |   600.905 |    37,47
+ESCOLAS            |    228.521 | 234    |   108.590 |     9,63
+GESTOR             |    187.740 |  83    |    41.668 |     3,39
+TURMAS             |  2.432.438 |  79    |   450.988 |    30,79
+MATRICULA_CO       |  3.945.797 | 103    |   975.562 |    71,89
+MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278 |   352,19
+MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161 |    77,32
+MATRICULA_SUDESTE  | 19.785.845 | 103    | 4.803.374 | 4.740,87
+MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 |    93,76
+
+Vale ressaltar que o readr não conseguiu ler o arquivo `MATRICULA_SUDESTE`, e foi feito com a biblioteca `arrow` através da função `read_delim_arrow`, cujo argumentos são os mesmos da `read_delim` do `readr`.
 
 ## Apache Parquet 
 
@@ -113,7 +116,8 @@ GESTOR             |    187.740 |  83    |    41.668  |    10.341 | 75,2%    |  
 TURMAS             |  2.432.438 |  79    |   450.988  |    66.316 | 85,3%    |   8,54
 MATRICULA_CO       |  3.945.797 | 103    |   975.562  |   323.494 | 66,8%    |  20,43
 MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278  | 2.008.247 | 47,8%    | 693,41
-MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161  |   315.049 | 75,6%    |  18,80
+MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161  |   315.049 | 75,6%    |  17,50
+MATRICULA_SUDESTE  | 19.785.845 | 103    | 4.803.374  | 1.146.767 | 76,1%    | 1.389,93
 MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439  |   777.771 | 54,3%    |  45,86
 
 

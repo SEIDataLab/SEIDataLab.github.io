@@ -17,9 +17,10 @@
       <title>Parquet para grandes conjuntos de dados no R</title>
       <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
       <link>https://seidatalab.github.io/posts/parquet_com_R</link>
-      <description>O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande. O Apache Parquet é uma excelente alternativa, e este post apresenta como trabalhar com esse formato de arquivo orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr.</description>
+      <description>O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.</description>
       <guid>https://seidatalab.github.io/posts/parquet_com_R</guid>
       <pubDate>qui, 28 jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://seidatalab.github.io/posts/parquet_com_R/parquet.png" medium="image" type="image/png" width="450" height="112"/>
     </item>
     <item>
       <title>Dados do ideb direto do R?</title>
