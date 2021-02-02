@@ -110,7 +110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Parquet para grandes conjuntos de dados no R"]},{"type":"character","attributes":{},"value":["O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.\n"]},{"type":"character","attributes":{},"value":["parquet.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Jonatas Silva do Espirito Santo"]},{"type":"character","attributes":{},"value":["https://github.com/jonates/"]},{"type":"character","attributes":{},"value":["Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia"]},{"type":"character","attributes":{},"value":["www.sei.ba.gov.br"]},{"type":"character","attributes":{},"value":["0000-0002-1654-0314"]}]}]},{"type":"character","attributes":{},"value":["01-28-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","preview","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Parquet para grandes conjuntos de dados no R"]},{"type":"character","attributes":{},"value":["O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.\n"]},{"type":"character","attributes":{},"value":["parquet.png"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url","orcid_id"]}},"value":[{"type":"character","attributes":{},"value":["Jonatas Silva do Espirito Santo"]},{"type":"character","attributes":{},"value":["https://github.com/jonates/"]},{"type":"character","attributes":{},"value":["Diretor de Pesquisas | SEI - Governo da Bahia"]},{"type":"character","attributes":{},"value":["www.sei.ba.gov.br"]},{"type":"character","attributes":{},"value":["0000-0002-1654-0314"]}]}]},{"type":"character","attributes":{},"value":["01-28-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1420,7 +1420,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Parquet para grandes conjuntos de dados no R","description":"O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.","authors":[{"author":"Jonatas Silva do Espirito Santo","authorURL":"https://github.com/jonates/","affiliation":"Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia","affiliationURL":"www.sei.ba.gov.br","orcidID":"0000-0002-1654-0314"}],"publishedDate":"2021-01-28T00:00:00.000-03:00","citationText":"Santo, 2021"}
+{"title":"Parquet para grandes conjuntos de dados no R","description":"O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.","authors":[{"author":"Jonatas Silva do Espirito Santo","authorURL":"https://github.com/jonates/","affiliation":"Diretor de Pesquisas | SEI - Governo da Bahia","affiliationURL":"www.sei.ba.gov.br","orcidID":"0000-0002-1654-0314"}],"publishedDate":"2021-01-28T00:00:00.000-03:00","citationText":"Santo, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1437,7 +1437,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-byline">
-  Jonatas Silva do Espirito Santo <a href="https://github.com/jonates/" class="uri">https://github.com/jonates/</a> (Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia)www.sei.ba.gov.br
+  Jonatas Silva do Espirito Santo <a href="https://github.com/jonates/" class="uri">https://github.com/jonates/</a> (Diretor de Pesquisas | SEI - Governo da Bahia)www.sei.ba.gov.br
   
 <br/>01-28-2021
 </div>
@@ -1447,7 +1447,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 body {
 text-align: justify}
 </style>
-<p>Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula.</p>
+<p>Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula. Também, pode-se utilizar outro caractere como separador de colunas, e, assim o csv passa a ser chamado por alguns como “character-separated-values”.</p>
 <p>Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.</p>
 <p>Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula ou outro caractere). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão <code>.csv</code>:</p>
 <pre><code>sede,campeão,ano
@@ -1575,7 +1575,7 @@ Coréia do Sul e Japão,Brasil,2002
 </tr>
 </tbody>
 </table>
-<p>Vale ressaltar que o readr não conseguiu ler o arquivo <code>MATRICULA_SUDESTE</code>, e foi feito com a biblioteca <code>arrow</code> através da função <code>read_delim_arrow</code>, cujo argumentos são os mesmos da <code>read_delim</code> do <code>readr</code>.</p>
+<p>Vale ressaltar que o readr não conseguiu ler o arquivo <code>MATRICULA_NORDESTE</code>, <code>MATRICULA_SUDESTE</code> e <code>MATRICULA_SUL</code>, e assim, a leitura foi feito com a biblioteca <code>arrow</code> através da função <code>read_delim_arrow</code>, cujo argumentos são os mesmos da <code>read_delim</code> do <code>readr</code>.</p>
 <h2 id="apache-parquet">Apache Parquet</h2>
 <h2 id="lendo-e-escrevendo-arquivos-parquet-com-apache-arrow-no-r">Lendo e escrevendo arquivos Parquet com Apache Arrow no R</h2>
 <p>Existe uma biblioteca no R, de nome <code>arrow</code>, que possui duas funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente <code>read_parquet</code> e <code>write_parquet</code>.</p>

@@ -6,7 +6,7 @@ preview: parquet.png
 author:
   - name: Jonatas Silva do Espirito Santo 
     url: https://github.com/jonates/
-    affiliation: Diretor de Pesquisas na SEI/SEPLAN/Governo da Bahia
+    affiliation: Diretor de Pesquisas | SEI - Governo da Bahia
     affiliation_url: www.sei.ba.gov.br
     orcid_id: 0000-0002-1654-0314
 date: 01-28-2021
@@ -19,7 +19,7 @@ body {
 text-align: justify}
 </style>
 
-Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula.
+Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula. Também, pode-se utilizar outro caractere como separador de colunas, e, assim o csv passa a ser chamado por alguns como "character-separated-values".
 
 Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.
 
@@ -77,7 +77,7 @@ MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161 |    77,32
 MATRICULA_SUDESTE  | 19.785.845 | 103    | 4.803.374 | 4.740,87
 MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 |   142,68
 
-Vale ressaltar que o readr não conseguiu ler o arquivo `MATRICULA_SUDESTE`, e foi feito com a biblioteca `arrow` através da função `read_delim_arrow`, cujo argumentos são os mesmos da `read_delim` do `readr`.
+Vale ressaltar que o readr não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, e assim, a leitura foi feito com a biblioteca `arrow` através da função `read_delim_arrow`, cujo argumentos são os mesmos da `read_delim` do `readr`.
 
 ## Apache Parquet 
 
@@ -146,5 +146,6 @@ MATRICULA_NORDESTE | 15.304.589 | 103  | 2.351,71    |  84,27
 MATRICULA_NORTE    |  5.198.366 | 103  |    77,32    |  14,27
 MATRICULA_SUDESTE  | 19.785.845 | 103  | 4.740,87    | 243,47
 MATRICULA_SUL      |  6.932.126 | 103  |   142,68    |  17,80
+
 ## Lendo e escrevendo arquivos Parquet com Apache Spark no R
 
