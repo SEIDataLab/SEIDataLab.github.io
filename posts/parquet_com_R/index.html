@@ -2584,7 +2584,20 @@ Coréia do Sul e Japão,Brasil,2002
 </tbody>
 </table>
 <h2 id="lendo-e-escrevendo-arquivos-parquet-com-apache-spark-no-r">Lendo e escrevendo arquivos Parquet com Apache Spark no R</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Assumindo que o spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função <code>spark_connect</code>. Como será utilizado o Spark de forma “stand alone”, no argumento <code>master</code>utilize o termo “local”:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>sc &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_connect</span>(<span class="dt">master =</span> <span class="st">&quot;local&quot;</span>)</span></code></pre></div>
+<p>Agora, vamos utilizar a função <code>spark_connection_is_open</code> para verificar se a conexão com o Spark está ativa. Ao rodar o comando abaixo é espero retorno <code>TRUE</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_connection_is_open</span>(sc)</span></code></pre></div>
+<p>Agora, vamos utilizar a conexão <code>sc</code> para enviar, através do RStudio, um job para o Spark. Nosso interesse é que o Spark leia um arquivo csv. Para isso, basta utilizar a função <code>spark_read_csv</code> da biblioteca <code>sparklyr</code>, sendo que nos argumentos <code>sc</code>tem que colocar o nome da conexão, em <code>name</code> o nome que deseja atribuir ao dataset dentro do Spark, em <code>path</code> o diretório e nome do arquivo csv que deseja ler, em <code>charset</code> está associado com a região e resolve problemas de encoding, em <code>delimiter</code> coloca o caractere que separa as colunas do arquivo csv:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>DOCENTES_CO &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_read_csv</span>(</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="dt">sc =</span> sc,</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="dt">name =</span> <span class="st">&quot;DOCENTES_CO&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="dt">path =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="dt">charset =</span> <span class="st">&quot;Latin1&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="dt">delimiter =</span> <span class="st">&quot;|&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7"></a>  <span class="dt">memory =</span> <span class="ot">FALSE</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>)  </span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

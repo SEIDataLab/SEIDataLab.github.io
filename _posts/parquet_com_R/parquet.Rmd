@@ -149,3 +149,27 @@ MATRICULA_SUL      |  6.932.126 | 103  |   142,68    |  17,80
 
 ## Lendo e escrevendo arquivos Parquet com Apache Spark no R
 
+Assumindo que o spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função `spark_connect`. Como será utilizado o Spark de forma "stand alone", no argumento `master`utilize o termo "local":
+
+``` {.r}
+sc <- sparklyr::spark_connect(master = "local")
+```
+
+Agora, vamos utilizar a função `spark_connection_is_open` para verificar se a conexão com o Spark está ativa. Ao rodar o comando abaixo é espero retorno `TRUE`:
+
+``` {.r}
+sparklyr::spark_connection_is_open(sc)
+```
+
+Agora, vamos utilizar a conexão `sc` para enviar, através do RStudio, um job para o Spark. Nosso interesse é que o Spark leia um arquivo csv. Para isso, basta utilizar a função `spark_read_csv` da biblioteca `sparklyr`, sendo que nos argumentos `sc`tem que colocar o nome da conexão, em `name` o nome que deseja atribuir ao dataset dentro do Spark, em `path` o diretório e nome do arquivo csv que deseja ler, em `charset` está associado com  a região e resolve problemas de encoding, em `delimiter` coloca o caractere que separa as colunas do arquivo csv:
+
+``` {.r}
+DOCENTES_CO <- sparklyr::spark_read_csv(
+  sc = sc,
+  name = "DOCENTES_CO",
+  path = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
+  charset = "Latin1",
+  delimiter = "|",
+  memory = FALSE
+)  
+```
