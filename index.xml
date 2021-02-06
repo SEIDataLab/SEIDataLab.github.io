@@ -23,6 +23,15 @@
       <media:content url="https://seidatalab.github.io/posts/parquet_com_R/parquet.png" medium="image" type="image/png" width="450" height="112"/>
     </item>
     <item>
+      <title>Big Data com Spark e R: primeiros passos</title>
+      <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
+      <link>https://seidatalab.github.io/posts/spark_com_R</link>
+      <description>O Spark é um framework da Apache foundation para trabalhar com processamento de big data através de computação distribuida. Atualmente existem duas bibliotecas que permite escrever, em linguagem, jobs para o Spark, a `sparkr` e a `sparklyr`, esta última desenvolvida e mantida pela RStudio. Este post apresenta desde a instalação do Spark até algumas tarefas de manipulação e processamento de dataset no Spark, e o mais legal, tudo direto do RStudio, utilizando linguagem R, através da biblioteca `sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.</description>
+      <guid>https://seidatalab.github.io/posts/spark_com_R</guid>
+      <pubDate>qui, 28 jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://seidatalab.github.io/posts/spark_com_R/spark_logo.jpg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
       <title>Dados do ideb direto do R?</title>
       <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
       <link>https://seidatalab.github.io/posts/idebr</link>

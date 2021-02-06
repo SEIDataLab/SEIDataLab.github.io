@@ -1,0 +1,66 @@
+---
+title: "Big Data com Spark e R: primeiros passos"
+description: |
+ O Spark é um framework da Apache foundation para trabalhar com processamento de big data através de computação distribuida. Atualmente existem duas bibliotecas que permite escrever, em linguagem, jobs para o Spark, a `sparkr` e a `sparklyr`, esta última desenvolvida e mantida pela RStudio. Este post apresenta desde a instalação do Spark até algumas tarefas de manipulação e processamento de dataset no Spark, e o mais legal, tudo direto do RStudio, utilizando linguagem R, através da biblioteca `sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.
+preview: spark_logo.jpg
+author:
+  - name: Jonatas Silva do Espirito Santo 
+    url: https://github.com/jonates/
+    affiliation: Diretor de Pesquisas | SEI - Governo da Bahia
+    affiliation_url: www.sei.ba.gov.br
+    orcid_id: 0000-0002-1654-0314
+date: 01-28-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+<style>
+body {
+text-align: justify}
+</style>
+
+XXXXXXXXXXXXXXXX.
+
+## Preparando o ambiente
+
+Abra o RStudio e instale a biblioteca `sparklyr`:
+
+``` {.r}
+install.packages("sparklyr")
+```
+
+Em seguida, solicite que o RStudio instale o Spark em seu computador através da função `spark_install()`:
+
+``` {.r}
+sparklyr::spark_install()
+```
+
+
+## Conectando o RStudio ao Spark
+
+Assumindo que o spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função `spark_connect`. Vamos utilizar o Spark no modo "standalone", portanto no argumento `master`utilize o termo "local":
+
+``` {.r}
+sc <- sparklyr::spark_connect(master = "local")
+```
+
+Agora, vamos utilizar a função `spark_connection_is_open` para verificar se a conexão com o Spark está ativa. Ao rodar o comando abaixo é espero retorno `TRUE`:
+
+``` {.r}
+sparklyr::spark_connection_is_open(sc)
+```
+
+## Lendo e escrevendo arquivos com Apache Spark no R
+
+Agora, vamos utilizar a conexão `sc` para enviar, através do RStudio, um job para o Spark. Nosso interesse é que o Spark leia um arquivo csv. Para isso, basta utilizar a função `spark_read_csv` da biblioteca `sparklyr`, sendo que nos argumentos `sc`tem que colocar o nome da conexão, em `name` o nome que deseja atribuir ao dataset dentro do Spark, em `path` o diretório e nome do arquivo csv que deseja ler, em `charset` está associado com  a região e resolve problemas de encoding, em `delimiter` coloca o caractere que separa as colunas do arquivo csv:
+
+``` {.r}
+DOCENTES_CO <- sparklyr::spark_read_csv(
+  sc = sc,
+  name = "DOCENTES_CO",
+  path = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
+  charset = "Latin1",
+  delimiter = "|",
+  memory = FALSE
+)  
+```
