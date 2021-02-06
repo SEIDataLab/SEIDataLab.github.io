@@ -29,7 +29,7 @@ Abra o RStudio e instale a biblioteca `sparklyr`:
 install.packages("sparklyr")
 ```
 
-Em seguida, solicite que o RStudio instale o Spark em seu computador através da função `spark_install()`. Vale ressaltar que o Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java SE Development Kit). Assim, após garantir que o computador tem o java 8 instalado, de dentro do RStudio, execute o comando R a seguir para prosseguir a instalação da Spark:
+Em seguida, solicite que o RStudio instale o Spark em seu computador através da função `spark_install()`. Vale ressaltar que o Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java™ SE Development Kit 8, Update 92). Assim, após garantir que o computador tem o java 8 instalado, de dentro do RStudio, execute o comando R a seguir para prosseguir a instalação da Spark:
 
 ``` {.r}
 sparklyr::spark_install()
