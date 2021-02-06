@@ -2187,7 +2187,7 @@ text-align: justify}
 <h2 id="preparando-o-ambiente">Preparando o ambiente</h2>
 <p>Abra o RStudio e instale a biblioteca <code>sparklyr</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;sparklyr&quot;</span>)</span></code></pre></div>
-<p>Em seguida, solicite que o RStudio instale o Spark em seu computador através da função <code>spark_install()</code>:</p>
+<p>Em seguida, solicite que o RStudio instale o Spark em seu computador através da função <code>spark_install()</code>. Vale ressaltar que o Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java SE Development Kit). Assim, após garantir que o computador tem o java 8 instalado, de dentro do RStudio, execute o comando R a seguir para prosseguir a instalação da Spark:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_install</span>()</span></code></pre></div>
 <h2 id="conectando-o-rstudio-ao-spark">Conectando o RStudio ao Spark</h2>
 <p>Assumindo que o spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função <code>spark_connect</code>. Vamos utilizar o Spark no modo “standalone”, portanto no argumento <code>master</code>utilize o termo “local”:</p>
