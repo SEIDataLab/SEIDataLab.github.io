@@ -1453,8 +1453,8 @@ text-align: justify}
 <h2 id="preparando-o-ambiente">Preparando o ambiente</h2>
 <p>Abra o RStudio e instale a biblioteca <code>sparklyr</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;sparklyr&quot;</span>)</span></code></pre></div>
-<p>O Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java™ SE Development Kit 8, Update 92). Se ainda não possui o java instalado, faça o download da versão exigida pelo Spark no site.</p>
-<p>Verifique se tem o java correto está instalado através do comando:</p>
+<p>O Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java™ SE Development Kit 8, Update 92). Se ainda não possui o java instalado, faça o download da versão exigida pelo Spark no site <a href="https://www.oracle.com/br/java/technologies/javase/javase-jdk8-downloads.html" class="uri">https://www.oracle.com/br/java/technologies/javase/javase-jdk8-downloads.html</a>.</p>
+<p>Para verificar se tem o java correto está instalado através do comando:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">system</span>(<span class="st">&quot;java -version&quot;</span>)</span></code></pre></div>
 <p>Em seguida, após garantir que o computador tem o java 8 instalado, utilize o comando a seguir para a instalar o Spark em seu computador:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_install</span>()</span></code></pre></div>
