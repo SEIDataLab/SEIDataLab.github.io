@@ -54,22 +54,54 @@ sparklyr::spark_installed_versions()
 Com o Spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função `spark_connect`. Vamos utilizar o Spark no modo "standalone", portanto no argumento `master`utilize o termo "local":
 
 ``` {.r}
-sc <- sparklyr::spark_connect(master = "local")
+conexao_spark <- sparklyr::spark_connect(master = "local")
 ```
 
 Agora, vamos utilizar a função `spark_connection_is_open` para verificar se a conexão com o Spark está ativa. Ao rodar o comando abaixo é espero retorno `TRUE`:
 
 ``` {.r}
-sparklyr::spark_connection_is_open(sc)
+sparklyr::spark_connection_is_open(sc = conexao_spark)
 ```
 
-## Lendo e escrevendo arquivos com Apache Spark no R
+Também, é possível monitorar, através de um browser,  todos os jobs que estão sendo executados em seu Spark. Basta executar no RStudio o seguinte comando:
 
-Agora, vamos utilizar a conexão `sc` para enviar, através do RStudio, um job para o Spark. Nosso interesse é que o Spark leia um arquivo csv. Para isso, basta utilizar a função `spark_read_csv` da biblioteca `sparklyr`, sendo que nos argumentos `sc`tem que colocar o nome da conexão, em `name` o nome que deseja atribuir ao dataset dentro do Spark, em `path` o diretório e nome do arquivo csv que deseja ler, em `charset` está associado com  a região e resolve problemas de encoding, em `delimiter` coloca o caractere que separa as colunas do arquivo csv:
+``` {.r}
+sparklyr::spark_web()
+```
+
+## Copiando arquivos do ambiente R para o Spark
+
+Para aproveitar todo ferramental do Spark em realizações de tarefas com um conjunto de dados, seja ela de transformação, contagem ou até mesmo de ajuste de um modelo de machine learning, é preciso copiar os dados para o Spark. Se os dados já estiver carregado no ambiente do RStudio, basta utilizar a função `copy_to`, passando o nome da conexão no argumento `dest`, o nome do objeto que deseja copiar para o Spark no argumento `df` e um nome (entre aspas duplas) que deseja atribuir ao objeto dentro do ambiente Spark no argumento `name`.
+
+Para ilustrar, vamos utilizar os dados do ideb (índice de desenvolvimento da educação básica) das séries iniciais do ensino fundamental de escolas Brasil, que será carregado através do pacote idebr (para instalar a biblioteca idebr execute o comando `devtools::install_github("jonates/idebr")`):
+
+``` {.r}
+#carregando o conjuntos de dados no ambiente R
+
+ideb_escolas <- idebr::ideb_fundamental_iniciais_escolas
+
+#copiando o conjunto de dados para o Spark
+
+sparklyr::copy_to(
+  dest = conexao_spark,
+  df = ideb_escolas,
+  name = "ideb_EFSI"
+)
+```
+
+Para verificar, quais tabelas / conjuntos de dados estão disponíveis em seu Spark, use a função `src_tbls()` da biblioteca `dplyr`informando o nome da conexão Spark no argumento `x` conforme script a seguir:
+
+``` {.r}
+dplyr::src_tbls(x = conexao_spark)
+```
+
+## Lendo e escrevendo arquivos em disco com Apache Spark através do R
+
+Porém, suponha agora que seja de interesse que o Spark leia um arquivo csv direto de um diretório. Para isso, basta utilizar a função `spark_read_csv` da biblioteca `sparklyr`, sendo que nos argumentos `sc`tem que colocar o nome da conexão, em `name` o nome que deseja atribuir ao dataset dentro do Spark, em `path` o diretório e nome do arquivo csv que deseja ler, em `charset` está associado com  a região e resolve problemas de encoding, em `delimiter` coloca o caractere que separa as colunas do arquivo csv:
 
 ``` {.r}
 DOCENTES_CO <- sparklyr::spark_read_csv(
-  sc = sc,
+  sc = conexao_spark,
   name = "DOCENTES_CO",
   path = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
   charset = "Latin1",

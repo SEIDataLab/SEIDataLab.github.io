@@ -2196,20 +2196,38 @@ text-align: justify}
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_installed_versions</span>()</span></code></pre></div>
 <h2 id="conectando-o-rstudio-ao-spark">Conectando o RStudio ao Spark</h2>
 <p>Com o Spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função <code>spark_connect</code>. Vamos utilizar o Spark no modo “standalone”, portanto no argumento <code>master</code>utilize o termo “local”:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>sc &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_connect</span>(<span class="dt">master =</span> <span class="st">&quot;local&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>conexao_spark &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_connect</span>(<span class="dt">master =</span> <span class="st">&quot;local&quot;</span>)</span></code></pre></div>
 <p>Agora, vamos utilizar a função <code>spark_connection_is_open</code> para verificar se a conexão com o Spark está ativa. Ao rodar o comando abaixo é espero retorno <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_connection_is_open</span>(sc)</span></code></pre></div>
-<h2 id="lendo-e-escrevendo-arquivos-com-apache-spark-no-r">Lendo e escrevendo arquivos com Apache Spark no R</h2>
-<p>Agora, vamos utilizar a conexão <code>sc</code> para enviar, através do RStudio, um job para o Spark. Nosso interesse é que o Spark leia um arquivo csv. Para isso, basta utilizar a função <code>spark_read_csv</code> da biblioteca <code>sparklyr</code>, sendo que nos argumentos <code>sc</code>tem que colocar o nome da conexão, em <code>name</code> o nome que deseja atribuir ao dataset dentro do Spark, em <code>path</code> o diretório e nome do arquivo csv que deseja ler, em <code>charset</code> está associado com a região e resolve problemas de encoding, em <code>delimiter</code> coloca o caractere que separa as colunas do arquivo csv:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>DOCENTES_CO &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_read_csv</span>(</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">sc =</span> sc,</span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">name =</span> <span class="st">&quot;DOCENTES_CO&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="dt">path =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">charset =</span> <span class="st">&quot;Latin1&quot;</span>,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">delimiter =</span> <span class="st">&quot;|&quot;</span>,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>  <span class="dt">memory =</span> <span class="ot">FALSE</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>)  </span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_connection_is_open</span>(<span class="dt">sc =</span> conexao_spark)</span></code></pre></div>
+<p>Também, é possível monitorar, através de um browser, todos os jobs que estão sendo executados em seu Spark. Basta executar no RStudio o seguinte comando:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_web</span>()</span></code></pre></div>
+<h2 id="copiando-arquivos-do-ambiente-r-para-o-spark">Copiando arquivos do ambiente R para o Spark</h2>
+<p>Para aproveitar todo ferramental do Spark em realizações de tarefas com um conjunto de dados, seja ela de transformação, contagem ou até mesmo de ajuste de um modelo de machine learning, é preciso copiar os dados para o Spark. Se os dados já estiver carregado no ambiente do RStudio, basta utilizar a função <code>copy_to</code>, passando o nome da conexão no argumento <code>dest</code>, o nome do objeto que deseja copiar para o Spark no argumento <code>df</code> e um nome (entre aspas duplas) que deseja atribuir ao objeto dentro do ambiente Spark no argumento <code>name</code>.</p>
+<p>Para ilustrar, vamos utilizar os dados do ideb (índice de desenvolvimento da educação básica) das séries iniciais do ensino fundamental de escolas Brasil, que será carregado através do pacote idebr (para instalar a biblioteca idebr execute o comando <code>devtools::install_github("jonates/idebr")</code>):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#carregando o conjuntos de dados no ambiente R</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>ideb_escolas &lt;-<span class="st"> </span>idebr<span class="op">::</span>ideb_fundamental_iniciais_escolas</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#copiando o conjunto de dados para o Spark</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a>sparklyr<span class="op">::</span><span class="kw">copy_to</span>(</span>
+<span id="cb8-8"><a href="#cb8-8"></a>  <span class="dt">dest =</span> conexao_spark,</span>
+<span id="cb8-9"><a href="#cb8-9"></a>  <span class="dt">df =</span> ideb_escolas,</span>
+<span id="cb8-10"><a href="#cb8-10"></a>  <span class="dt">name =</span> <span class="st">&quot;ideb_EFSI&quot;</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>)</span></code></pre></div>
+<p>Para verificar, quais tabelas / conjuntos de dados estão disponíveis em seu Spark, use a função <code>src_tbls()</code> da biblioteca <code>dplyr</code>informando o nome da conexão Spark no argumento <code>x</code> conforme script a seguir:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>dplyr<span class="op">::</span><span class="kw">src_tbls</span>(<span class="dt">x =</span> conexao_spark)</span></code></pre></div>
+<h2 id="lendo-e-escrevendo-arquivos-em-disco-com-apache-spark-através-do-r">Lendo e escrevendo arquivos em disco com Apache Spark através do R</h2>
+<p>Porém, suponha agora que seja de interesse que o Spark leia um arquivo csv direto de um diretório. Para isso, basta utilizar a função <code>spark_read_csv</code> da biblioteca <code>sparklyr</code>, sendo que nos argumentos <code>sc</code>tem que colocar o nome da conexão, em <code>name</code> o nome que deseja atribuir ao dataset dentro do Spark, em <code>path</code> o diretório e nome do arquivo csv que deseja ler, em <code>charset</code> está associado com a região e resolve problemas de encoding, em <code>delimiter</code> coloca o caractere que separa as colunas do arquivo csv:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>DOCENTES_CO &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_read_csv</span>(</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="dt">sc =</span> conexao_spark,</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="dt">name =</span> <span class="st">&quot;DOCENTES_CO&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="dt">path =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>  <span class="dt">charset =</span> <span class="st">&quot;Latin1&quot;</span>,</span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="dt">delimiter =</span> <span class="st">&quot;|&quot;</span>,</span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="dt">memory =</span> <span class="ot">FALSE</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>)  </span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
