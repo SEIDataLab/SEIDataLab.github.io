@@ -1453,24 +1453,29 @@ text-align: justify}
 <h2 id="preparando-o-ambiente">Preparando o ambiente</h2>
 <p>Abra o RStudio e instale a biblioteca <code>sparklyr</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;sparklyr&quot;</span>)</span></code></pre></div>
-<p>Em seguida, solicite que o RStudio instale o Spark em seu computador através da função <code>spark_install()</code>. Vale ressaltar que o Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java™ SE Development Kit 8, Update 92). Assim, após garantir que o computador tem o java 8 instalado, de dentro do RStudio, execute o comando R a seguir para prosseguir a instalação da Spark:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_install</span>()</span></code></pre></div>
+<p>O Spark exige que tenha o java 8 instalado em seu computador (a partir da versão 3 do Spark, exige versão 8u92 ou superior do JDK - Java™ SE Development Kit 8, Update 92). Se ainda não possui o java instalado, faça o download da versão exigida pelo Spark no site.</p>
+<p>Verifique se tem o java correto está instalado através do comando:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">system</span>(<span class="st">&quot;java -version&quot;</span>)</span></code></pre></div>
+<p>Em seguida, após garantir que o computador tem o java 8 instalado, utilize o comando a seguir para a instalar o Spark em seu computador:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_install</span>()</span></code></pre></div>
+<p>Agora, verifique se o Spark está instalado, e em qual versão, através do script a seguir:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_installed_versions</span>()</span></code></pre></div>
 <h2 id="conectando-o-rstudio-ao-spark">Conectando o RStudio ao Spark</h2>
-<p>Assumindo que o spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função <code>spark_connect</code>. Vamos utilizar o Spark no modo “standalone”, portanto no argumento <code>master</code>utilize o termo “local”:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>sc &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_connect</span>(<span class="dt">master =</span> <span class="st">&quot;local&quot;</span>)</span></code></pre></div>
+<p>Com o Spark já está instalado no computador, primeiro deve ser criado uma conexão entre o RStudio e o Spark através da função <code>spark_connect</code>. Vamos utilizar o Spark no modo “standalone”, portanto no argumento <code>master</code>utilize o termo “local”:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>sc &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_connect</span>(<span class="dt">master =</span> <span class="st">&quot;local&quot;</span>)</span></code></pre></div>
 <p>Agora, vamos utilizar a função <code>spark_connection_is_open</code> para verificar se a conexão com o Spark está ativa. Ao rodar o comando abaixo é espero retorno <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_connection_is_open</span>(sc)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>sparklyr<span class="op">::</span><span class="kw">spark_connection_is_open</span>(sc)</span></code></pre></div>
 <h2 id="lendo-e-escrevendo-arquivos-com-apache-spark-no-r">Lendo e escrevendo arquivos com Apache Spark no R</h2>
 <p>Agora, vamos utilizar a conexão <code>sc</code> para enviar, através do RStudio, um job para o Spark. Nosso interesse é que o Spark leia um arquivo csv. Para isso, basta utilizar a função <code>spark_read_csv</code> da biblioteca <code>sparklyr</code>, sendo que nos argumentos <code>sc</code>tem que colocar o nome da conexão, em <code>name</code> o nome que deseja atribuir ao dataset dentro do Spark, em <code>path</code> o diretório e nome do arquivo csv que deseja ler, em <code>charset</code> está associado com a região e resolve problemas de encoding, em <code>delimiter</code> coloca o caractere que separa as colunas do arquivo csv:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>DOCENTES_CO &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_read_csv</span>(</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="dt">sc =</span> sc,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="dt">name =</span> <span class="st">&quot;DOCENTES_CO&quot;</span>,</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="dt">path =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="dt">charset =</span> <span class="st">&quot;Latin1&quot;</span>,</span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="dt">delimiter =</span> <span class="st">&quot;|&quot;</span>,</span>
-<span id="cb5-7"><a href="#cb5-7"></a>  <span class="dt">memory =</span> <span class="ot">FALSE</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>)  </span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>DOCENTES_CO &lt;-<span class="st"> </span>sparklyr<span class="op">::</span><span class="kw">spark_read_csv</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">sc =</span> sc,</span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">name =</span> <span class="st">&quot;DOCENTES_CO&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="dt">path =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">charset =</span> <span class="st">&quot;Latin1&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">delimiter =</span> <span class="st">&quot;|&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>  <span class="dt">memory =</span> <span class="ot">FALSE</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>)  </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
