@@ -87,13 +87,17 @@ MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 |   142,68
 
 Vale ressaltar que o readr não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, e assim, a leitura foi feita com a biblioteca `arrow` através da função `read_delim_arrow`, cujo argumentos são os mesmos da `read_delim` do `readr`.
 
-## Salvando dados em arquivos Parquet com Apache Arrow no R
+## Apache Arrow
 
-Existe uma biblioteca no R, de nome `arrow`, que possui duas funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente `read_parquet` e `write_parquet`. Para ter acesso a essas funções, primeiro instale a biblioteca `arrow`:
+A Apache Foundation tem mantido o projeto Arrow, que de acordo com o site do projeteo (https://arrow.apache.org/): *"A cross-language development platform for in-memory analytics"*. De forma geral, poderiamos dizer que o Arrow é uma framework para desenvolver aplicações que processam e transportam grandes conjuntos de dados. O Apache Arrow ajuda a melhorar desempenho de algoritmos analíticos e dá eficiência na movimentação de dados de uma sistema (ou linguagem de programação) para outra.
+
+Felizmente, existe uma biblioteca do Apache Arrow no R, de nome `arrow`, que dentre várias funcionalidades, fornece funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente `read_parquet` e `write_parquet`. Para ter acesso a essas funções, primeiro instale a biblioteca `arrow`:
 
 ``` {.r}
 install.packages("arrow")
 ```
+
+## Salvando dados em arquivos Parquet com Apache Arrow no R
 
 Com a biblioteca `arrow` já devidamente instalada, para gravar o dataframe disponível em memória em um arquivo parquet no disco, passe como argumento `x` da função `write_parquet` o nome do dataframe que deseja salvar, e no argumento `sink` o diretório e o nome do arquivo parquet:
 
