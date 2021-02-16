@@ -12,23 +12,23 @@
       <link>https://seidatalab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>qui, 28 jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>seg, 15 fev 2021 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Parquet para grandes conjuntos de dados no R</title>
       <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
       <link>https://seidatalab.github.io/posts/parquet_com_R</link>
-      <description>O formato csv, largamente utilizado, tem limitações quando o conjuntos de dados é grande, e o Apache Parquet é uma excelente alternativa. Este post apresenta como trabalhar com parquet que são arquivos orientado a colunas, utilizando R e as bibliotecas arrow e sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.</description>
+      <description>Apesar do formato csv ser largamente utilizado, quando o conjuntos de dados é grande, o csv apresenta limitações. Nesses casos, pode ser vantajoso optar pelo Parquet, um  formato de arquivo para armazenamento de dados orientado a colunas. Neste post abordamos o uso de arquivos Parquet no R através da biblioteca Arrow da Apache Foundation, e os microdadosdo Censo Escolar 2019, disponibilizados pelo INEP - Ministério da Educação do Brasil serviram como exemplo.</description>
       <guid>https://seidatalab.github.io/posts/parquet_com_R</guid>
-      <pubDate>qui, 28 jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>seg, 15 fev 2021 00:00:00 +0000</pubDate>
       <media:content url="https://seidatalab.github.io/posts/parquet_com_R/parquet.png" medium="image" type="image/png" width="450" height="112"/>
     </item>
     <item>
       <title>Big Data com Spark e R: primeiros passos</title>
       <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
       <link>https://seidatalab.github.io/posts/spark_com_R</link>
-      <description>O Spark é um framework da Apache foundation para trabalhar com processamento de big data através de computação distribuida. Atualmente existem duas bibliotecas que permite escrever, em linguagem, jobs para o Spark, a `sparkr` e a `sparklyr`, esta última desenvolvida e mantida pela RStudio. Este post apresenta desde a instalação do Spark até algumas tarefas de manipulação e processamento de dataset no Spark, e o mais legal, tudo direto do RStudio, utilizando linguagem R, através da biblioteca `sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.</description>
+      <description>O Spark é um framework da Apache foundation para trabalhar com processamento de big data através de computação distribuida. Atualmente existem duas bibliotecas que permite escrever jobs para o Spark, em linguagem R, a `sparkr` e a `sparklyr`, esta última desenvolvida e mantida pela RStudio. Este post apresenta desde a instalação do Spark até algumas tarefas de manipulação e processamento de dataset no Spark, e o mais legal, tudo direto do RStudio, utilizando linguagem R, através da biblioteca `sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.</description>
       <guid>https://seidatalab.github.io/posts/spark_com_R</guid>
-      <pubDate>qui, 28 jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>dom, 14 fev 2021 00:00:00 +0000</pubDate>
       <media:content url="https://seidatalab.github.io/posts/spark_com_R/spark_logo.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>

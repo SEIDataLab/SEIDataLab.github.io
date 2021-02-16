@@ -1,7 +1,7 @@
 ---
 title: "Big Data com Spark e R: primeiros passos"
 description: |
- O Spark é um framework da Apache foundation para trabalhar com processamento de big data através de computação distribuida. Atualmente existem duas bibliotecas que permite escrever, em linguagem, jobs para o Spark, a `sparkr` e a `sparklyr`, esta última desenvolvida e mantida pela RStudio. Este post apresenta desde a instalação do Spark até algumas tarefas de manipulação e processamento de dataset no Spark, e o mais legal, tudo direto do RStudio, utilizando linguagem R, através da biblioteca `sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.
+ O Spark é um framework da Apache foundation para trabalhar com processamento de big data através de computação distribuida. Atualmente existem duas bibliotecas que permite escrever jobs para o Spark, em linguagem R, a `sparkr` e a `sparklyr`, esta última desenvolvida e mantida pela RStudio. Este post apresenta desde a instalação do Spark até algumas tarefas de manipulação e processamento de dataset no Spark, e o mais legal, tudo direto do RStudio, utilizando linguagem R, através da biblioteca `sparklyr. Os dados do Censo Escolar 2019 foram utilizados como exemplo.
 preview: spark_logo.jpg
 author:
   - name: Jonatas Silva do Espirito Santo 
@@ -9,7 +9,7 @@ author:
     affiliation: Diretor de Pesquisas | SEI - Governo da Bahia
     affiliation_url: www.sei.ba.gov.br
     orcid_id: 0000-0002-1654-0314
-date: 01-28-2021
+date: 02-14-2021
 output:
   distill::distill_article:
     self_contained: false
