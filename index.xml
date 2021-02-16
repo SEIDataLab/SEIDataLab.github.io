@@ -17,7 +17,7 @@
       <title>Parquet para grandes conjuntos de dados no R</title>
       <dc:creator>Jonatas Silva do Espirito Santo</dc:creator>
       <link>https://seidatalab.github.io/posts/parquet_com_R</link>
-      <description>Apesar do formato csv ser largamente utilizado, quando o conjuntos de dados é grande, o csv apresenta limitações. Nesses casos, pode ser vantajoso optar pelo Parquet, um  formato de arquivo para armazenamento de dados orientado a colunas. Neste post abordamos o uso de arquivos Parquet no R através da biblioteca Arrow da Apache Foundation, e os microdadosdo Censo Escolar 2019, disponibilizados pelo INEP - Ministério da Educação do Brasil serviram como exemplo.</description>
+      <description>Apesar do formato csv ser largamente adotado, quando o conjuntos de dados é grande, o csv apresenta limitações. Nesses casos, pode ser vantajoso optar pelo Parquet, um  formato de arquivo para armazenamento de dados orientado a colunas. Abordamos aqui a performance de arquivos Parquet no R através da biblioteca Arrow da Apache Foundation. Foi utilizado como exemplos os microdados do Censo Escolar 2019, disponibilizados pelo INEP - Ministério da Educação do Brasil.</description>
       <guid>https://seidatalab.github.io/posts/parquet_com_R</guid>
       <pubDate>seg, 15 fev 2021 00:00:00 +0000</pubDate>
       <media:content url="https://seidatalab.github.io/posts/parquet_com_R/parquet.png" medium="image" type="image/png" width="450" height="112"/>

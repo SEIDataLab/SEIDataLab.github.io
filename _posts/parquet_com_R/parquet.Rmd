@@ -1,7 +1,7 @@
 ---
 title: "Parquet para grandes conjuntos de dados no R"
 description: |
- Apesar do formato csv ser largamente utilizado, quando o conjuntos de dados é grande, o csv apresenta limitações. Nesses casos, pode ser vantajoso optar pelo Parquet, um  formato de arquivo para armazenamento de dados orientado a colunas. Neste post abordamos o uso de arquivos Parquet no R através da biblioteca Arrow da Apache Foundation, e os microdadosdo Censo Escolar 2019, disponibilizados pelo INEP - Ministério da Educação do Brasil serviram como exemplo.
+ Apesar do formato csv ser largamente adotado, quando o conjuntos de dados é grande, o csv apresenta limitações. Nesses casos, pode ser vantajoso optar pelo Parquet, um  formato de arquivo para armazenamento de dados orientado a colunas. Abordamos aqui a performance de arquivos Parquet no R através da biblioteca Arrow da Apache Foundation. Foi utilizado como exemplos os microdados do Censo Escolar 2019, disponibilizados pelo INEP - Ministério da Educação do Brasil.
 preview: parquet.png
 author:
   - name: Jonatas Silva do Espirito Santo 
@@ -19,11 +19,11 @@ body {
 text-align: justify}
 </style>
 
-Mesmo depois de décadas de sua implementação, é rotina entre as intituições, sejam do setor privado, seja nas instituições públicas, armazenar dados em um arquivo csv (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de la decimal, é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula. Também, pode-se utilizar outro caractere como separador de colunas, e, assim o csv passa a ser chamado por alguns como "character-separated-values".
+Já se passaram décadas após a criação do `csv`, mas ainda é rotina entre as intituições, seja no setor privado, seja nas instituições públicas, armazenar dados em um arquivo `csv` (“comma-separated-values”), que como próprio significado da sigla já diz, é um arquivo com valores separados por vírgulas. Vale ressaltar que, como no Brasil a vírgula é utilizada como separador de casa decimal, então é prática comum utilizar o sinal ponto e vírgula (;) como separador de valores, em vez de usar o sinal vírgula. Também, pode-se utilizar outro caractere como separador de colunas, e, assim o `csv` passa a ser chamado por alguns como "character-separated-values".
 
-Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas e consultar/editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.
+Por ser bastante difundido e de fácil manipulação (a depender do tamanho do arquivo, é possível abrir em um bloco de notas, fazer uma leitura humana, e inclusive editar o arquivo de dados csv), a maioria dos softwares e aplicativos, tem suporte para leitura e gravação de arquivos csv.
 
-Nesses tipos de arquivos, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula ou outro caractere). Por exemplo, suponha que seja de interesse, armazenar em um arquivo csv com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Poderia simplesmente abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão `.csv`:
+No `csv`, cada linha representa um registro, e os valores dos campos associados a esses registros são separados por vírgula (ou ponto e vírgula ou outro caractere). Por exemplo, suponha que seja de interesse, armazenar em um arquivo `csv` com informações básicas das últimas 5 copas do mundo de futebol masculino da FIFA. Para tanto, bastaria abrir um bloco de notas, digitar o texto abaixo e depois salvar com a extensão `.csv`:
 
 ```
 sede,campeão,ano
@@ -34,9 +34,11 @@ Alemanha,Itália,2006
 Coréia do Sul e Japão,Brasil,2002
 
 ```
-Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o csv é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance. 
+Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o `csv` é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance. 
 
 Então, o formato de arquivos Apache parquet, que é um "column oriented dataset”, ou seja, conjunto de dados orientado a colunas, se torna uma excelente alternativa ao `.csv` para gravar grandes conjuntos de dados para análise, pois, além de leitura mais rápida, a taxa de compressão desses arquivos é muito maior em relação aos `.csv` ocupando menos espaço em disco.
+
+De acordo com o site do projeto (https://parquet.apache.org/): *"Apache Parquet is a columnar storage format available to any project in the Hadoop ecosystem, regardless of the choice of data processing framework, data model or programming language"*, ou seja, é um formato de armazenamento colunar, disponível para qualquer projeto do ecossistema Hadoop, independente da escolha da estrutura de processamento dos dados, do modelo dos dados ou da linguagem de progamação.
 
 ## O conjunto de dados de exemplo
 
@@ -46,11 +48,11 @@ O download é de um arquivo `microdados_educacao_basica_2019` compactado com ext
 
 Na pasta `DADOS` existem 15 conjuntos de dados em formato `.csv`.
 
-Por exemplo, o arquivo `MATRICULA_NORDESTE.CSV` que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja  quase 3,8 Gigabytes.
+Esses conjuntos de dados são relativamente massivos. Por exemplo, o arquivo `MATRICULA_NORDESTE.CSV` que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja  quase 3,8 Gigabytes.
 
 ## O equipamento
 
-Para os testes de performance de leitura e escrita de arquivos `csv` e `parquet`apresentando aqui neste post, foi utilizado um notebook lenovo, com processador intel core i7-4500U quad-core, , 16Gb de memória RAM e HD da WD com capacidade de 1 Tb.
+Para os testes de performance de leitura e escrita de arquivos `csv` e `parquet`apresentando aqui neste post, foi utilizado um notebook Lenovo, com processador intel core i7-4500U quad-core, , 16Gb de memória RAM e HD com capacidade de 1 Tb.
 
 ## Carregando os arquivos `csv` no ambiente R
 
@@ -58,12 +60,12 @@ Como os microdados do Censo Escolar, sao arquivos `csv` com as colunas separadas
 
 ``` {.r}
 matricula_NE <- readr::read_delim(
-  file = "./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.CSV",
+  file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
   delim = "|"
 )
 ```
 
-Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP
+A leitura do arquivo `DOCENTES_CO.CSV`, que possui 892.665 registros e 136 campos, e ocupa em disco algo entorno de 268 Mb,  levou 18,49 segundos para ser lido. Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP, incluindo o tempo de carregamento no ambiente R.
 
 Tabela 1. Informações sobre leituras de arquivos do Censo escolar 2019 no formato `csv` com uso da biblioteca `arrow` no R.
 dataset           | registros | campos | tamanho (KB) | tempo de leitura  (segundos)
