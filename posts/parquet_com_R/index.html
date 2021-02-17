@@ -2195,23 +2195,27 @@ Brasil,Alemanha,2014
 Alemanha,Itália,2006
 Coréia do Sul e Japão,Brasil,2002
 </code></pre>
-<p>Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o <code>csv</code> é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance.</p>
+<p>Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o <code>csv</code> é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é um conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance.</p>
 <p>Então, o formato de arquivos Apache parquet, que é um “column oriented dataset”, ou seja, conjunto de dados orientado a colunas, se torna uma excelente alternativa ao <code>.csv</code> para gravar grandes conjuntos de dados para análise, pois, além de leitura mais rápida, a taxa de compressão desses arquivos é muito maior em relação aos <code>.csv</code> ocupando menos espaço em disco.</p>
 <p>De acordo com o site do projeto (<a href="https://parquet.apache.org/" class="uri">https://parquet.apache.org/</a>): <em>“Apache Parquet is a columnar storage format available to any project in the Hadoop ecosystem, regardless of the choice of data processing framework, data model or programming language”</em>, ou seja, é um formato de armazenamento colunar, disponível para qualquer projeto do ecossistema Hadoop, independente da escolha da estrutura de processamento dos dados, do modelo dos dados ou da linguagem de progamação.</p>
 <h2 id="o-conjunto-de-dados-de-exemplo">O conjunto de dados de exemplo</h2>
 <p>Vamos utilizar como exemplo, dados do censo escolar 2019, realizado pelo Ministério da Educação do Brasil. Os microdados, são disponibilizados para download no site do INEP - Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira.</p>
-<p>O download é de um arquivo <code>microdados_educacao_basica_2019</code> compactado com extensão <code>.zip</code>, cujo conteúdo é uma pasta <code>microdados_educacao_basica_2019</code>contendo quatro outras pastas <code>ANEXOS</code>, <code>DADOS</code>, <code>FILTROS</code>, <code>LEIA-ME</code>.</p>
+<p>O download é de um arquivo <code>microdados_educacao_basica_2019</code> compactado com extensão <code>.zip</code>, cujo conteúdo é uma pasta <code>microdados_educacao_basica_2019</code> contendo quatro outras pastas <code>ANEXOS</code>, <code>DADOS</code>, <code>FILTROS</code>, <code>LEIA-ME</code>.</p>
 <p>Na pasta <code>DADOS</code> existem 15 conjuntos de dados em formato <code>.csv</code>.</p>
 <p>Esses conjuntos de dados são relativamente massivos. Por exemplo, o arquivo <code>MATRICULA_NORDESTE.CSV</code> que é o conjunto de dados com informações de cada aluno matriculado na educação básica em escolas do Nordeste do Brasil, possui 15.304.589 registros e 103 campos, e, ocupa em disco 3.790.278 KB, ou seja quase 3,8 Gigabytes.</p>
 <h2 id="o-equipamento">O equipamento</h2>
 <p>Para os testes de performance de leitura e escrita de arquivos <code>csv</code> e <code>parquet</code> apresentados aqui neste post, foi utilizado um notebook Lenovo, com processador intel core i7-4500U quad-core, , 16Gb de memória RAM e HD com capacidade de 1 Tb.</p>
+<h2 id="apache-arrow">Apache Arrow</h2>
+<p>A Apache Foundation tem mantido o projeto Arrow, que de acordo com o site do projeto (<a href="https://arrow.apache.org/" class="uri">https://arrow.apache.org/</a>): <em>“A cross-language development platform for in-memory analytics”</em>. De forma geral, poderiamos dizer que o Arrow é uma framework para desenvolver aplicações que processam e transportam grandes conjuntos de dados. O Apache Arrow ajuda a melhorar desempenho de algoritmos analíticos e dá eficiência na movimentação de dados de uma sistema (ou linguagem de programação) para outra.</p>
+<p>Felizmente, existe uma biblioteca do Apache Arrow no R, de nome <code>arrow</code>, que dentre várias funcionalidades, fornece funções de fácil utilização, para leitura e escrita de arquivos de diversos formatos, incluindo <code>csv</code> e no formato <code>parquet</code>. Para ter acesso a essas funções, primeiro instale a biblioteca <code>arrow</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;arrow&quot;</span>)</span></code></pre></div>
 <h2 id="carregando-os-arquivos-csv-no-ambiente-r">Carregando os arquivos <code>csv</code> no ambiente R</h2>
-<p>Como os microdados do Censo Escolar, sao arquivos <code>csv</code> com as colunas separadas pelo caracter pipe (<code>|</code>), Eles foram carregados no R com a utilização da função <code>read_delim</code> da biblioteca <code>readr</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>matricula_NE &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_delim</span>(</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>)</span></code></pre></div>
-<p>A leitura do arquivo <code>DOCENTES_CO.CSV</code>, que possui 892.665 registros e 136 campos, e ocupa em disco algo entorno de 268 Mb, levou 18,49 segundos para ser lido. Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP, incluindo o tempo de carregamento no ambiente R.</p>
+<p>Com a biblioteca <code>arrow</code> já devidamente instalada, para ler os microdados do Censo Escolar 2019, que estão no formato <code>csv</code>, e que tem o caracter pipe (<code>|</code>) como separador de colunas, basta utilizar a função <code>read_delim_arrow()</code> da biblioteca <code>arrow</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>matricula_NE &lt;-<span class="st"> </span>arrow<span class="op">::</span><span class="kw">read_delim_arrow</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>)</span></code></pre></div>
+<p>A leitura do arquivo <code>DOCENTES_CO.CSV</code>, que possui 892.665 registros e 136 campos, e ocupa em disco algo entorno de 268 Mb, levou 5,37 segundos para ser lido. Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP, incluindo o tempo de carregamento no ambiente R.</p>
 <p>Tabela 1. Informações sobre leituras de arquivos do Censo escolar 2019 no formato <code>csv</code> com uso da biblioteca <code>arrow</code> no R.</p>
 <table>
 <thead>
@@ -2229,106 +2233,101 @@ Coréia do Sul e Japão,Brasil,2002
 <td style="text-align: right;">892.665</td>
 <td style="text-align: center;">136</td>
 <td style="text-align: right;">285.874</td>
-<td style="text-align: right;">18,49</td>
+<td style="text-align: right;">5,37</td>
 </tr>
 <tr class="even">
 <td>DOCENTES_NORDESTE</td>
 <td style="text-align: right;">3.044.057</td>
 <td style="text-align: center;">136</td>
 <td style="text-align: right;">964.596</td>
-<td style="text-align: right;">66,19</td>
+<td style="text-align: right;">16,75</td>
 </tr>
 <tr class="odd">
 <td>DOCENTES_NORTE</td>
 <td style="text-align: right;">1.067.901</td>
 <td style="text-align: center;">136</td>
 <td style="text-align: right;">341.999</td>
-<td style="text-align: right;">22,83</td>
+<td style="text-align: right;">6,56</td>
 </tr>
 <tr class="even">
 <td>DOCENTES_SUDESTE</td>
 <td style="text-align: right;">4.653.852</td>
 <td style="text-align: center;">136</td>
 <td style="text-align: right;">1.478.987</td>
-<td style="text-align: right;">84,88</td>
+<td style="text-align: right;">46,21</td>
 </tr>
 <tr class="odd">
 <td>DOCENTES_SUL</td>
 <td style="text-align: right;">1.879.896</td>
 <td style="text-align: center;">136</td>
 <td style="text-align: right;">600.905</td>
-<td style="text-align: right;">37,47</td>
+<td style="text-align: right;">11,08</td>
 </tr>
 <tr class="even">
 <td>ESCOLAS</td>
 <td style="text-align: right;">228.521</td>
 <td style="text-align: center;">234</td>
 <td style="text-align: right;">108.590</td>
-<td style="text-align: right;">9,63</td>
+<td style="text-align: right;">2,50</td>
 </tr>
 <tr class="odd">
 <td>GESTOR</td>
 <td style="text-align: right;">187.740</td>
 <td style="text-align: center;">83</td>
 <td style="text-align: right;">41.668</td>
-<td style="text-align: right;">3,39</td>
+<td style="text-align: right;">1,61</td>
 </tr>
 <tr class="even">
 <td>TURMAS</td>
 <td style="text-align: right;">2.432.438</td>
 <td style="text-align: center;">79</td>
 <td style="text-align: right;">450.988</td>
-<td style="text-align: right;">30,79</td>
+<td style="text-align: right;">7,42</td>
 </tr>
 <tr class="odd">
 <td>MATRICULA_CO</td>
 <td style="text-align: right;">3.945.797</td>
 <td style="text-align: center;">103</td>
 <td style="text-align: right;">975.562</td>
-<td style="text-align: right;">71,89</td>
+<td style="text-align: right;">19,04</td>
 </tr>
 <tr class="even">
 <td>MATRICULA_NORDESTE</td>
 <td style="text-align: right;">15.304.589</td>
 <td style="text-align: center;">103</td>
 <td style="text-align: right;">3.790.278</td>
-<td style="text-align: right;">2.351,71</td>
+<td style="text-align: right;">1.810,51</td>
 </tr>
 <tr class="odd">
 <td>MATRICULA_NORTE</td>
 <td style="text-align: right;">5.198.366</td>
 <td style="text-align: center;">103</td>
 <td style="text-align: right;">1.289.161</td>
-<td style="text-align: right;">77,32</td>
+<td style="text-align: right;">31,73</td>
 </tr>
 <tr class="even">
 <td>MATRICULA_SUDESTE</td>
 <td style="text-align: right;">19.785.845</td>
 <td style="text-align: center;">103</td>
 <td style="text-align: right;">4.803.374</td>
-<td style="text-align: right;">4.740,87</td>
+<td style="text-align: right;">3.103,85</td>
 </tr>
 <tr class="odd">
 <td>MATRICULA_SUL</td>
 <td style="text-align: right;">6.932.126</td>
 <td style="text-align: center;">103</td>
 <td style="text-align: right;">1.703.439</td>
-<td style="text-align: right;">142,68</td>
+<td style="text-align: right;">56,18</td>
 </tr>
 </tbody>
 </table>
-<p>Vale ressaltar que o readr não conseguiu ler o arquivo <code>MATRICULA_NORDESTE</code>, <code>MATRICULA_SUDESTE</code> e <code>MATRICULA_SUL</code>, e assim, a leitura foi feita com a biblioteca <code>arrow</code> através da função <code>read_delim_arrow</code>, cujo argumentos são os mesmos da <code>read_delim</code> do <code>readr</code>.</p>
-<h2 id="apache-arrow">Apache Arrow</h2>
-<p>A Apache Foundation tem mantido o projeto Arrow, que de acordo com o site do projeteo (<a href="https://arrow.apache.org/" class="uri">https://arrow.apache.org/</a>): <em>“A cross-language development platform for in-memory analytics”</em>. De forma geral, poderiamos dizer que o Arrow é uma framework para desenvolver aplicações que processam e transportam grandes conjuntos de dados. O Apache Arrow ajuda a melhorar desempenho de algoritmos analíticos e dá eficiência na movimentação de dados de uma sistema (ou linguagem de programação) para outra.</p>
-<p>Felizmente, existe uma biblioteca do Apache Arrow no R, de nome <code>arrow</code>, que dentre várias funcionalidades, fornece funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente <code>read_parquet</code> e <code>write_parquet</code>. Para ter acesso a essas funções, primeiro instale a biblioteca <code>arrow</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;arrow&quot;</span>)</span></code></pre></div>
 <h2 id="salvando-dados-em-arquivos-parquet-com-apache-arrow-no-r">Salvando dados em arquivos Parquet com Apache Arrow no R</h2>
-<p>Com a biblioteca <code>arrow</code> já devidamente instalada, para gravar o dataframe disponível em memória em um arquivo parquet no disco, passe como argumento <code>x</code> da função <code>write_parquet</code> o nome do dataframe que deseja salvar, e no argumento <code>sink</code> o diretório e o nome do arquivo parquet:</p>
+<p>Com o conjunto de dados já carregado no ambiente R, para gravar este dataframe disponível em memória em um arquivo parquet no disco, passe como argumento <code>x</code> da função <code>write_parquet()</code> o nome do dataframe que deseja salvar, e no argumento <code>sink</code> o diretório e o nome do arquivo parquet:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>arrow<span class="op">::</span><span class="kw">write_parquet</span>( </span>
 <span id="cb4-2"><a href="#cb4-2"></a>  <span class="dt">x =</span> matricula_NE,</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  <span class="dt">sink =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.parquet&quot;</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>)</span></code></pre></div>
-<p>Por exempplo, para o arquivo <code>MATRICULA_NORDESTE.CSV</code>, O R demorou 1.227,41 segundos para gravar o dataframe em um arquivo parquet no disco. E, o arquivo parquet ocupou em disco 2.008.247 KB, ou seja um compressão de 47,02%.</p>
+<p>Por exempplo, para o arquivo <code>MATRICULA_NORDESTE.CSV</code>, O R demorou 1.227,41 segundos para gravar o dataframe em um arquivo parquet no disco, ocupando do disco 323.494 KB. Dado que este conjunto de dados no formato <code>CSV</code> ocupava 3.790.278 KB do disco, houve uma redução significativa do tamanho na ordem de 66,8%.</p>
 <p>Segue abaixo algumas estatísticas relacionadas a gravação em disco de dataframe em formato parquet:</p>
 <p>Tabela 2. Informações sobre escritas de arquivos do Censo escolar 2019 no formato <code>parquet</code> com uso da biblioteca <code>arrow</code> no R.</p>
 <table>
@@ -2473,7 +2472,7 @@ Coréia do Sul e Japão,Brasil,2002
 </tbody>
 </table>
 <h2 id="lendo-arquivos-parquet-com-apache-arrow-no-r">Lendo arquivos Parquet com Apache Arrow no R</h2>
-<p>Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento <code>file</code> da função <code>read_parquet</code> o diretório e o nome do arquivo parquet:</p>
+<p>Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento <code>file</code> da função <code>read_parquet()</code> o diretório e o nome do arquivo parquet:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>matricula_NE_Parquet &lt;-<span class="st"> </span>arrow<span class="op">::</span><span class="kw">read_parquet</span>(</span>
 <span id="cb5-2"><a href="#cb5-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/MATRICULA_NORDESTE.parquet&quot;</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>)</span></code></pre></div>
@@ -2503,114 +2502,236 @@ Coréia do Sul e Japão,Brasil,2002
 <td>DOCENTES_CO</td>
 <td style="text-align: right;">892.665</td>
 <td style="text-align: center;">136</td>
-<td style="text-align: right;">18,49</td>
-<td style="text-align: right;">3,03</td>
-<td style="text-align: right;">6,10</td>
+<td style="text-align: right;">5,37</td>
+<td style="text-align: right;">2,87</td>
+<td style="text-align: right;">1,9</td>
 </tr>
 <tr class="even">
 <td>DOCENTES_NORDESTE</td>
 <td style="text-align: right;">3.044.057</td>
 <td style="text-align: center;">136</td>
-<td style="text-align: right;">66,19</td>
-<td style="text-align: right;">9,97</td>
-<td style="text-align: right;">6,64</td>
+<td style="text-align: right;">16,75</td>
+<td style="text-align: right;">8,14</td>
+<td style="text-align: right;">2,1</td>
 </tr>
 <tr class="odd">
 <td>DOCENTES_NORTE</td>
 <td style="text-align: right;">1.067.901</td>
 <td style="text-align: center;">136</td>
-<td style="text-align: right;">22,83</td>
-<td style="text-align: right;">4,14</td>
-<td style="text-align: right;">5,51</td>
+<td style="text-align: right;">6,56</td>
+<td style="text-align: right;">3,79</td>
+<td style="text-align: right;">1,7</td>
 </tr>
 <tr class="even">
 <td>DOCENTES_SUDESTE</td>
 <td style="text-align: right;">4.653.852</td>
 <td style="text-align: center;">136</td>
-<td style="text-align: right;">84,88</td>
-<td style="text-align: right;">13,58</td>
-<td style="text-align: right;">6,25</td>
+<td style="text-align: right;">46,21</td>
+<td style="text-align: right;">11,18</td>
+<td style="text-align: right;">4,1</td>
 </tr>
 <tr class="odd">
 <td>DOCENTES_SUL</td>
 <td style="text-align: right;">1.879.896</td>
 <td style="text-align: center;">136</td>
-<td style="text-align: right;">37,47</td>
-<td style="text-align: right;">7,56</td>
-<td style="text-align: right;">4,96</td>
+<td style="text-align: right;">11,08</td>
+<td style="text-align: right;">6,04</td>
+<td style="text-align: right;">1,8</td>
 </tr>
 <tr class="even">
 <td>ESCOLAS</td>
 <td style="text-align: right;">228.521</td>
 <td style="text-align: center;">234</td>
-<td style="text-align: right;">9,63</td>
-<td style="text-align: right;">2,31</td>
-<td style="text-align: right;">4,17</td>
+<td style="text-align: right;">2,50</td>
+<td style="text-align: right;">2,11</td>
+<td style="text-align: right;">1,2</td>
 </tr>
 <tr class="odd">
 <td>GESTOR</td>
 <td style="text-align: right;">187.740</td>
 <td style="text-align: center;">83</td>
-<td style="text-align: right;">3,39</td>
-<td style="text-align: right;">1,77</td>
-<td style="text-align: right;">1,92</td>
+<td style="text-align: right;">1,61</td>
+<td style="text-align: right;">1,51</td>
+<td style="text-align: right;">1,1</td>
 </tr>
 <tr class="even">
 <td>TURMAS</td>
 <td style="text-align: right;">2.432.438</td>
 <td style="text-align: center;">79</td>
-<td style="text-align: right;">30,79</td>
-<td style="text-align: right;">7,68</td>
-<td style="text-align: right;">4,01</td>
+<td style="text-align: right;">7,42</td>
+<td style="text-align: right;">6,41</td>
+<td style="text-align: right;">1,2</td>
 </tr>
 <tr class="odd">
 <td>MATRICULA_CO</td>
 <td style="text-align: right;">3.945.797</td>
 <td style="text-align: center;">103</td>
-<td style="text-align: right;">71,89</td>
-<td style="text-align: right;">14,02</td>
-<td style="text-align: right;">5,13</td>
+<td style="text-align: right;">19,04</td>
+<td style="text-align: right;">14,19</td>
+<td style="text-align: right;">1,3</td>
 </tr>
 <tr class="even">
 <td>MATRICULA_NORDESTE</td>
 <td style="text-align: right;">15.304.589</td>
 <td style="text-align: center;">103</td>
-<td style="text-align: right;">2.351,71</td>
-<td style="text-align: right;">84,27</td>
-<td style="text-align: right;">27,91</td>
+<td style="text-align: right;">1.810,51</td>
+<td style="text-align: right;">63,77</td>
+<td style="text-align: right;">28,4</td>
 </tr>
 <tr class="odd">
 <td>MATRICULA_NORTE</td>
 <td style="text-align: right;">5.198.366</td>
 <td style="text-align: center;">103</td>
-<td style="text-align: right;">77,32</td>
-<td style="text-align: right;">14,27</td>
-<td style="text-align: right;">5,42</td>
+<td style="text-align: right;">31,73</td>
+<td style="text-align: right;">14,70</td>
+<td style="text-align: right;">2,2</td>
 </tr>
 <tr class="even">
 <td>MATRICULA_SUDESTE</td>
 <td style="text-align: right;">19.785.845</td>
 <td style="text-align: center;">103</td>
-<td style="text-align: right;">4.740,87</td>
-<td style="text-align: right;">243,47</td>
-<td style="text-align: right;">19,47</td>
+<td style="text-align: right;">3.103,85</td>
+<td style="text-align: right;">109,02</td>
+<td style="text-align: right;">28,5</td>
 </tr>
 <tr class="odd">
 <td>MATRICULA_SUL</td>
 <td style="text-align: right;">6.932.126</td>
 <td style="text-align: center;">103</td>
-<td style="text-align: right;">142,68</td>
-<td style="text-align: right;">17,80</td>
-<td style="text-align: right;">8,02</td>
+<td style="text-align: right;">56,18</td>
+<td style="text-align: right;">16,44</td>
+<td style="text-align: right;">3,4</td>
 </tr>
 </tbody>
 </table>
 <p>Vale ressaltar que, se for de interesse ler somente algumas colunas do conjunto de dados, ao usar a função <code>read_parquet</code>da biblioteca <code>arrow</code>, basta incluir o argumento <code>col_select</code> e passar para ele um vetor com os nomes das colunas que deseja ler. Esse argumento também suporta as funções auxiliares de seleção de atributos da função <code>select</code>da biblioteca <code>dplyr</code> como a <code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>, <code>matches()</code>, etc.</p>
 <h2 id="considerações-importantes">Considerações importantes</h2>
 <p>Ao comparar conjuntos de dados identicos salvos em formatos diferentes (<code>csv</code> e <code>parquet</code>), percebe-se (vide tabela 2) que os arquivos <code>parquet</code> consomem muito menos espaços em disco, visto que os arquivos de armazenamento orientados a colunas tem taxa de compressão maiores do que os orientados a linhas. Isso traz uma vantagem imensa em armazenar dados em formatos <code>parquet</code> pois o custo cai significativamente. Pela comparação dos 15 conjuntos de dados do Censo Escolar 2019, verificamos redução média de 81,2% comparando o tamanho de arquivos <code>parquet</code>em relação ao formato <code>csv</code>.</p>
-<p>Outro fato que chama atenção é que, mesmo quando se tem conjunto de dados com os mesmo registros e colunas porém salvos em formato diferentes, a leitura de arquivos parquet é mais rápida que de arquivos csv, este último chegando a ter leitura quase 30 vezes mais demorada.</p>
+<p>Outro fato que chama atenção é que, mesmo quando se tem conjunto de dados com os mesmo registros e colunas porém salvos em formato diferentes, a leitura de arquivos parquet é mais rápida que de arquivos csv, este último chegando a ter leitura 28 vezes mais demorada, sendo que na maioria das vezes demora em média o dobro do tempo de leitura.</p>
 <p>Ainda, vale destacar que para tarefas, onde na maioria das vezes não são utilizadas todas as colunas do conjunto de dados para conduzir uma análise, o fato do parquet ser um formato de arquivo orientado a colunas, pode ser lido somente as colunas de interesse, diminuindo assim o tempo de leitura do arquivo, bem como consumindo menos recursos computacional, levando novamente vantagem em relação ao <code>csv</code> que teria que varrer todo o conjunto de dados para depois manter somente as colunas de interesse, resultando em gasto de tempo e de recurso computacional.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="bônus---carregando-os-arquivos-csv-no-ambiente-r-com-outras-bibliotecas">Bônus - Carregando os arquivos <code>csv</code> no ambiente R com outras bibliotecas</h2>
+<p>Além da <code>arrow</code>, outras biblioteca também disponibilizam funções para leituras de arquivos <code>csv</code>. O próprio R Base tem a função <code>read.delim()</code> para ler arquivos no formato de valores separados por caracter, conforme script abaixo:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>matricula_NE &lt;-<span class="st"> </span><span class="kw">read.delim</span>(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>)</span></code></pre></div>
+<p>Na biblioteca <code>readr</code>do Tidyverse tem a a função <code>read_delim()</code> para ler arquivos csv:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>matricula_NE &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_delim</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>)</span></code></pre></div>
+<p>Já a biblioteca <code>data.table</code> oferece a função <code>fread()</code> para ler arquivos csv:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>matricula_NE &lt;-<span class="st"> </span>data.table<span class="op">::</span><span class="kw">fread</span>(</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="dt">sep =</span> <span class="st">&quot;|&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>)</span></code></pre></div>
+<p>Tabela 4. Tempo de leitura (em segundos) de arquivos do Censo escolar 2019 no formato <code>csv</code> de acordo com algumas biblioteca do R.</p>
+<table>
+<thead>
+<tr class="header">
+<th>dataset</th>
+<th style="text-align: right;">arrow</th>
+<th style="text-align: right;">readr</th>
+<th style="text-align: right;">Base</th>
+<th style="text-align: right;">data.table</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DOCENTES_CO</td>
+<td style="text-align: right;">5,37</td>
+<td style="text-align: right;">16,64</td>
+<td style="text-align: right;">37,46</td>
+<td style="text-align: right;">3,91</td>
+</tr>
+<tr class="even">
+<td>DOCENTES_NORDESTE</td>
+<td style="text-align: right;">16,75</td>
+<td style="text-align: right;">52,78</td>
+<td style="text-align: right;">132,88</td>
+<td style="text-align: right;">6,25</td>
+</tr>
+<tr class="odd">
+<td>DOCENTES_NORTE</td>
+<td style="text-align: right;">6,56</td>
+<td style="text-align: right;">21,23</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>DOCENTES_SUDESTE</td>
+<td style="text-align: right;">46,21</td>
+<td style="text-align: right;">80,37</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>DOCENTES_SUL</td>
+<td style="text-align: right;">11,08</td>
+<td style="text-align: right;">35,99</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>ESCOLAS</td>
+<td style="text-align: right;">2,50</td>
+<td style="text-align: right;">9,27</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>GESTOR</td>
+<td style="text-align: right;">1,61</td>
+<td style="text-align: right;">3,71</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>TURMAS</td>
+<td style="text-align: right;">7,42</td>
+<td style="text-align: right;">27,41</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>MATRICULA_CO</td>
+<td style="text-align: right;">19,04</td>
+<td style="text-align: right;">59,06</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>MATRICULA_NORDESTE</td>
+<td style="text-align: right;">1.810,51</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>MATRICULA_NORTE</td>
+<td style="text-align: right;">31.73</td>
+<td style="text-align: right;">74,97</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>MATRICULA_SUDESTE</td>
+<td style="text-align: right;">3.103,85</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>MATRICULA_SUL</td>
+<td style="text-align: right;">56,18</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Vale ressaltar que o <code>readr</code> não conseguiu ler o arquivo <code>MATRICULA_NORDESTE</code>, <code>MATRICULA_SUDESTE</code> e <code>MATRICULA_SUL</code>, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">

@@ -34,7 +34,7 @@ Alemanha,Itália,2006
 Coréia do Sul e Japão,Brasil,2002
 
 ```
-Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o `csv` é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance. 
+Porém, apesar das diversas vantagens, quando o número de registros e de campos aumentam de forma considerável, a leitura desses arquivos passam a ter custo computacional elevado, pois o `csv` é um arquivo “row oriented dataset” (ou ainda chamado também de “row storage”), ou seja, como o próprio nome define, é um conjunto de dados orientados a linha, e assim, a leitura do arquivo é feito linha a linha. Portanto, mesmo que o interesse de análise seja de uma ou de algumas colunas específicas, todas as colunas serão lidas, diminuindo assim a performance. 
 
 Então, o formato de arquivos Apache parquet, que é um "column oriented dataset”, ou seja, conjunto de dados orientado a colunas, se torna uma excelente alternativa ao `.csv` para gravar grandes conjuntos de dados para análise, pois, além de leitura mais rápida, a taxa de compressão desses arquivos é muito maior em relação aos `.csv` ocupando menos espaço em disco.
 
@@ -44,7 +44,7 @@ De acordo com o site do projeto (https://parquet.apache.org/): *"Apache Parquet 
 
 Vamos utilizar como exemplo, dados do censo escolar 2019, realizado pelo Ministério da Educação do Brasil. Os microdados, são disponibilizados para download no site do INEP - Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira.
 
-O download é de um arquivo `microdados_educacao_basica_2019` compactado com extensão `.zip`, cujo conteúdo é uma pasta `microdados_educacao_basica_2019`contendo quatro outras pastas `ANEXOS`, `DADOS`, `FILTROS`, `LEIA-ME`. 
+O download é de um arquivo `microdados_educacao_basica_2019` compactado com extensão `.zip`, cujo conteúdo é uma pasta `microdados_educacao_basica_2019` contendo quatro outras pastas `ANEXOS`, `DADOS`, `FILTROS`, `LEIA-ME`. 
 
 Na pasta `DADOS` existem 15 conjuntos de dados em formato `.csv`.
 
@@ -54,52 +54,51 @@ Esses conjuntos de dados são relativamente massivos. Por exemplo, o arquivo `MA
 
 Para os testes de performance de leitura e escrita de arquivos `csv` e `parquet` apresentados aqui neste post, foi utilizado um notebook Lenovo, com processador intel core i7-4500U quad-core, , 16Gb de memória RAM e HD com capacidade de 1 Tb.
 
-## Carregando os arquivos `csv` no ambiente R
-
-Como os microdados do Censo Escolar, sao arquivos `csv` com as colunas separadas pelo caracter pipe (`|`), Eles foram carregados no R com a utilização da função `read_delim` da biblioteca `readr`:
-
-``` {.r}
-matricula_NE <- readr::read_delim(
-  file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
-  delim = "|"
-)
-```
-
-A leitura do arquivo `DOCENTES_CO.CSV`, que possui 892.665 registros e 136 campos, e ocupa em disco algo entorno de 268 Mb,  levou 18,49 segundos para ser lido. Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP, incluindo o tempo de carregamento no ambiente R.
-
-Tabela 1. Informações sobre leituras de arquivos do Censo escolar 2019 no formato `csv` com uso da biblioteca `arrow` no R.
-
-dataset           | registros | campos | tamanho (KB) | tempo de leitura  (segundos)
------------------- | -------: | :----: | ----------: | ---------------:
-DOCENTES_CO        |    892.665 | 136    |   285.874 |    18,49
-DOCENTES_NORDESTE  |  3.044.057 | 136    |   964.596 |    66,19
-DOCENTES_NORTE     |  1.067.901 | 136    |   341.999 |    22,83
-DOCENTES_SUDESTE   |  4.653.852 | 136    | 1.478.987 |    84,88
-DOCENTES_SUL       |  1.879.896 | 136    |   600.905 |    37,47
-ESCOLAS            |    228.521 | 234    |   108.590 |     9,63
-GESTOR             |    187.740 |  83    |    41.668 |     3,39
-TURMAS             |  2.432.438 |  79    |   450.988 |    30,79
-MATRICULA_CO       |  3.945.797 | 103    |   975.562 |    71,89
-MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278 | 2.351,71
-MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161 |    77,32
-MATRICULA_SUDESTE  | 19.785.845 | 103    | 4.803.374 | 4.740,87
-MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439 |   142,68
-
-Vale ressaltar que o readr não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, e assim, a leitura foi feita com a biblioteca `arrow` através da função `read_delim_arrow`, cujo argumentos são os mesmos da `read_delim` do `readr`.
-
 ## Apache Arrow
 
-A Apache Foundation tem mantido o projeto Arrow, que de acordo com o site do projeteo (https://arrow.apache.org/): *"A cross-language development platform for in-memory analytics"*. De forma geral, poderiamos dizer que o Arrow é uma framework para desenvolver aplicações que processam e transportam grandes conjuntos de dados. O Apache Arrow ajuda a melhorar desempenho de algoritmos analíticos e dá eficiência na movimentação de dados de uma sistema (ou linguagem de programação) para outra.
+A Apache Foundation tem mantido o projeto Arrow, que de acordo com o site do projeto (https://arrow.apache.org/): *"A cross-language development platform for in-memory analytics"*. De forma geral, poderiamos dizer que o Arrow é uma framework para desenvolver aplicações que processam e transportam grandes conjuntos de dados. O Apache Arrow ajuda a melhorar desempenho de algoritmos analíticos e dá eficiência na movimentação de dados de uma sistema (ou linguagem de programação) para outra.
 
-Felizmente, existe uma biblioteca do Apache Arrow no R, de nome `arrow`, que dentre várias funcionalidades, fornece funções de fácil utilização, para leitura e escrita de arquivos no formato parquet, respectivamente `read_parquet` e `write_parquet`. Para ter acesso a essas funções, primeiro instale a biblioteca `arrow`:
+Felizmente, existe uma biblioteca do Apache Arrow no R, de nome `arrow`, que dentre várias funcionalidades, fornece funções de fácil utilização, para leitura e escrita de arquivos de diversos formatos, incluindo `csv` e no formato `parquet`. Para ter acesso a essas funções, primeiro instale a biblioteca `arrow`:
 
 ``` {.r}
 install.packages("arrow")
 ```
 
+## Carregando os arquivos `csv` no ambiente R
+
+Com a biblioteca `arrow` já devidamente instalada, para ler os microdados do Censo Escolar 2019, que estão no formato `csv`, e que tem o caracter pipe (`|`) como separador de colunas, basta utilizar a função `read_delim_arrow()` da biblioteca `arrow`:
+
+
+``` {.r}
+matricula_NE <- arrow::read_delim_arrow(
+  file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
+  delim = "|"
+)
+```
+
+A leitura do arquivo `DOCENTES_CO.CSV`, que possui 892.665 registros e 136 campos, e ocupa em disco algo entorno de 268 Mb,  levou 5,37 segundos para ser lido. Segue abaixo algumas estatísticas relacionadas aos datasets do censo escolar disponibilizados pelo INEP, incluindo o tempo de carregamento no ambiente R.
+
+Tabela 1. Informações sobre leituras de arquivos do Censo escolar 2019 no formato `csv` com uso da biblioteca `arrow` no R.
+
+dataset            |  registros | campos | tamanho (KB) | tempo de leitura  (segundos)
+------------------ |   -------: | :----: | ----------: | ---------------:
+DOCENTES_CO        |    892.665 | 136    |   285.874   |     5,37
+DOCENTES_NORDESTE  |  3.044.057 | 136    |   964.596   |    16,75
+DOCENTES_NORTE     |  1.067.901 | 136    |   341.999   |     6,56
+DOCENTES_SUDESTE   |  4.653.852 | 136    | 1.478.987   |    46,21
+DOCENTES_SUL       |  1.879.896 | 136    |   600.905   |    11,08
+ESCOLAS            |    228.521 | 234    |   108.590   |      2,50
+GESTOR             |    187.740 |  83    |    41.668   |     1,61
+TURMAS             |  2.432.438 |  79    |   450.988   |     7,42
+MATRICULA_CO       |  3.945.797 | 103    |   975.562   |    19,04
+MATRICULA_NORDESTE | 15.304.589 | 103    | 3.790.278   | 1.810,51
+MATRICULA_NORTE    |  5.198.366 | 103    | 1.289.161   |    31,73
+MATRICULA_SUDESTE  | 19.785.845 | 103    | 4.803.374   | 3.103,85
+MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439   |    56,18
+
 ## Salvando dados em arquivos Parquet com Apache Arrow no R
 
-Com a biblioteca `arrow` já devidamente instalada, para gravar o dataframe disponível em memória em um arquivo parquet no disco, passe como argumento `x` da função `write_parquet` o nome do dataframe que deseja salvar, e no argumento `sink` o diretório e o nome do arquivo parquet:
+Com o conjunto de dados já carregado no ambiente R, para gravar este dataframe disponível em memória em um arquivo parquet no disco, passe como argumento `x` da função `write_parquet()` o nome do dataframe que deseja salvar, e no argumento `sink` o diretório e o nome do arquivo parquet:
 
 ``` {.r}
 arrow::write_parquet( 
@@ -108,7 +107,7 @@ arrow::write_parquet(
 )
 ```
 
-Por exempplo, para o arquivo `MATRICULA_NORDESTE.CSV`, O R demorou 1.227,41 segundos para gravar o dataframe em um arquivo parquet no disco. E, o arquivo parquet ocupou em disco 2.008.247 KB, ou seja um compressão de 47,02%.
+Por exempplo, para o arquivo `MATRICULA_NORDESTE.CSV`, O R demorou 1.227,41 segundos para gravar o dataframe em um arquivo parquet no disco, ocupando do disco 323.494 KB. Dado que este conjunto de dados no formato `CSV` ocupava 3.790.278 KB do disco, houve uma redução significativa do tamanho na ordem de 66,8%.
 
 Segue abaixo algumas estatísticas relacionadas a gravação em disco de dataframe em formato parquet: 
 
@@ -132,7 +131,7 @@ MATRICULA_SUL      |  6.932.126 | 103    | 1.703.439  |   409.738 | 75,9%    |  
 
 ## Lendo arquivos Parquet com Apache Arrow no R
 
-Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento `file` da função `read_parquet` o diretório e o nome do arquivo parquet:
+Agora, se deseja ler um arquivo parquet salvo em disco, passe como argumento `file` da função `read_parquet()` o diretório e o nome do arquivo parquet:
 
 ``` {.r}
 matricula_NE_Parquet <- arrow::read_parquet(
@@ -146,19 +145,19 @@ Tabela 3. Informações sobre leituras de arquivos do Censo escolar 2019 no form
 
 dataset           | registros | campos | tempo de leitura do csv  (segundos) | tempo de leitura do parquet  (segundos) | Tempo de Leitura CSV / Tempo de Leitura Parquet
 ------------------ | -------: | :----: | ----------: | -------: | -------:
-DOCENTES_CO        |    892.665 | 136  |    18,49    |   3,03   |   6,10
-DOCENTES_NORDESTE  |  3.044.057 | 136  |    66,19    |   9,97   |   6,64  
-DOCENTES_NORTE     |  1.067.901 | 136  |    22,83    |   4,14   |   5,51
-DOCENTES_SUDESTE   |  4.653.852 | 136  |    84,88    |  13,58   |   6,25
-DOCENTES_SUL       |  1.879.896 | 136  |    37,47    |   7,56   |   4,96
-ESCOLAS            |    228.521 | 234  |     9,63    |   2,31   |   4,17
-GESTOR             |    187.740 |  83  |     3,39    |   1,77   |   1,92
-TURMAS             |  2.432.438 |  79  |    30,79    |   7,68   |   4,01
-MATRICULA_CO       |  3.945.797 | 103  |    71,89    |  14,02   |   5,13
-MATRICULA_NORDESTE | 15.304.589 | 103  | 2.351,71    |  84,27   |  27,91
-MATRICULA_NORTE    |  5.198.366 | 103  |    77,32    |  14,27   |   5,42
-MATRICULA_SUDESTE  | 19.785.845 | 103  | 4.740,87    | 243,47   |  19,47
-MATRICULA_SUL      |  6.932.126 | 103  |   142,68    |  17,80   |   8,02
+DOCENTES_CO        |    892.665 | 136  |     5,37    |   2,87   |   1,9
+DOCENTES_NORDESTE  |  3.044.057 | 136  |    16,75    |   8,14   |   2,1  
+DOCENTES_NORTE     |  1.067.901 | 136  |     6,56    |   3,79   |   1,7
+DOCENTES_SUDESTE   |  4.653.852 | 136  |    46,21    |  11,18   |   4,1
+DOCENTES_SUL       |  1.879.896 | 136  |    11,08    |   6,04   |   1,8
+ESCOLAS            |    228.521 | 234  |     2,50    |   2,11   |   1,2
+GESTOR             |    187.740 |  83  |     1,61    |   1,51   |   1,1
+TURMAS             |  2.432.438 |  79  |     7,42    |   6,41   |   1,2
+MATRICULA_CO       |  3.945.797 | 103  |    19,04    |  14,19   |   1,3
+MATRICULA_NORDESTE | 15.304.589 | 103  | 1.810,51    |  63,77   |  28,4
+MATRICULA_NORTE    |  5.198.366 | 103  |    31,73    |  14,70   |   2,2
+MATRICULA_SUDESTE  | 19.785.845 | 103  | 3.103,85    | 109,02   |  28,5
+MATRICULA_SUL      |  6.932.126 | 103  |    56,18    |  16,44   |   3,4
 
 Vale ressaltar que, se for de interesse ler somente algumas colunas do conjunto de dados, ao usar a função `read_parquet`da biblioteca `arrow`, basta incluir o argumento `col_select` e passar para ele um vetor com os nomes das colunas que deseja ler. Esse argumento também suporta as funções auxiliares de seleção de atributos da função `select`da biblioteca `dplyr` como a `starts_with()`, `ends_with()`, `contains()`, `matches()`, etc.
 
@@ -167,6 +166,55 @@ Vale ressaltar que, se for de interesse ler somente algumas colunas do conjunto 
 
 Ao comparar conjuntos de dados identicos salvos em formatos diferentes (`csv` e `parquet`), percebe-se (vide tabela 2) que os arquivos `parquet` consomem muito menos espaços em disco, visto que os arquivos de armazenamento orientados a colunas tem taxa de compressão maiores do que os orientados a linhas. Isso traz uma vantagem imensa em armazenar dados em formatos `parquet` pois o custo cai significativamente. Pela comparação dos 15 conjuntos de dados do Censo Escolar 2019, verificamos redução média de 81,2% comparando o tamanho de arquivos `parquet`em relação ao formato `csv`.
 
-Outro fato que chama atenção é que, mesmo quando se tem conjunto de dados com os mesmo registros e colunas  porém salvos em formato diferentes, a leitura de arquivos parquet é mais rápida que de arquivos csv, este último chegando a ter leitura quase 30 vezes mais demorada.
+Outro fato que chama atenção é que, mesmo quando se tem conjunto de dados com os mesmo registros e colunas  porém salvos em formato diferentes, a leitura de arquivos parquet é mais rápida que de arquivos csv, este último chegando a ter leitura 28 vezes mais demorada, sendo que na maioria das vezes demora em média o dobro do tempo de leitura.
 
 Ainda, vale destacar que para tarefas, onde na maioria das vezes não são utilizadas todas as colunas do conjunto de dados para conduzir uma análise, o fato do parquet ser um formato de arquivo orientado a colunas, pode ser lido somente as colunas de interesse, diminuindo assim o tempo de leitura do arquivo, bem como consumindo menos recursos computacional, levando novamente vantagem em relação ao `csv` que teria que varrer todo o conjunto de dados para depois manter somente as colunas de interesse, resultando em gasto de tempo e de recurso computacional.
+
+## Bônus - Carregando os arquivos `csv` no ambiente R com outras bibliotecas
+
+Além da `arrow`, outras biblioteca também disponibilizam funções para leituras de arquivos `csv`. O próprio R Base tem a função `read.delim()` para ler arquivos no formato de valores separados por caracter, conforme script abaixo:
+
+``` {.r}
+matricula_NE <- read.delim(
+  file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
+  delim = "|"
+)
+```
+
+Na biblioteca `readr`do Tidyverse tem a a função `read_delim()` para ler arquivos csv:
+
+``` {.r}
+matricula_NE <- readr::read_delim(
+  file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
+  delim = "|"
+)
+```
+
+Já a biblioteca `data.table` oferece a função `fread()` para ler arquivos csv:
+
+``` {.r}
+matricula_NE <- data.table::fread(
+  file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
+  sep = "|"
+)
+```
+
+Tabela 4. Tempo de leitura (em segundos) de arquivos do Censo escolar 2019 no formato `csv` de acordo com algumas biblioteca do R.
+
+dataset            |   arrow  |   readr  |   Base   | data.table  
+------------------ | -------: | -------: | -------: |   -------: 
+DOCENTES_CO        |     5,37 |   16,64  |    37,46 |      3,91 
+DOCENTES_NORDESTE  |    16,75 |   52,78  |   132,88 |      6,25       
+DOCENTES_NORTE     |     6,56 |   21,23  |          |            
+DOCENTES_SUDESTE   |    46,21 |   80,37  |          |            
+DOCENTES_SUL       |    11,08 |   35,99  |          |            
+ESCOLAS            |     2,50 |    9,27  |          |            
+GESTOR             |     1,61 |    3,71  |          |            
+TURMAS             |     7,42 |   27,41  |          |            
+MATRICULA_CO       |    19,04 |   59,06  |          |            
+MATRICULA_NORDESTE | 1.810,51 |     -    |          |            
+MATRICULA_NORTE    |    31.73 |   74,97  |          |            
+MATRICULA_SUDESTE  | 3.103,85 |     -    |          |            
+MATRICULA_SUL      |    56,18 |     -    |          |            
+
+Vale ressaltar que o `readr` não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco.
