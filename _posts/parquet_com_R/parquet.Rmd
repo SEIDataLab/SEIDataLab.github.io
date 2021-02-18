@@ -172,16 +172,16 @@ Ainda, vale destacar que para tarefas, onde na maioria das vezes não são utili
 
 ## Bônus - Carregando os arquivos `csv` no ambiente R com outras bibliotecas
 
-Além da `arrow`, outras biblioteca também disponibilizam funções para leituras de arquivos `csv`. O próprio R Base tem a função `read.delim()` para ler arquivos no formato de valores separados por caracter, conforme script abaixo:
+Além da `arrow`, outras biblioteca também disponibilizam funções para leituras de arquivos `csv`. O próprio R Base tem a função `read.delim()` (da biblioteca `utils`) para ler arquivos no formato de valores separados por caracter, conforme script abaixo:
 
 ``` {.r}
-matricula_NE <- read.delim(
+matricula_NE <- utils::read.delim(
   file = "./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV",
   delim = "|"
 )
 ```
 
-Na biblioteca `readr`do Tidyverse tem a a função `read_delim()` para ler arquivos csv:
+Na biblioteca `readr` do Tidyverse tem a a função `read_delim()` para ler arquivos csv:
 
 ``` {.r}
 matricula_NE <- readr::read_delim(
@@ -201,20 +201,20 @@ matricula_NE <- data.table::fread(
 
 Tabela 4. Tempo de leitura (em segundos) de arquivos do Censo escolar 2019 no formato `csv` de acordo com algumas biblioteca do R.
 
-dataset            |   arrow  |   readr  |   Base   | data.table  
+dataset            |   arrow  |   readr  |   utils   | data.table  
 ------------------ | -------: | -------: | -------: |   -------: 
-DOCENTES_CO        |     5,37 |   16,64  |    37,46 |      3,91 
-DOCENTES_NORDESTE  |    16,75 |   52,78  |   132,88 |      6,25       
-DOCENTES_NORTE     |     6,56 |   21,23  |          |            
-DOCENTES_SUDESTE   |    46,21 |   80,37  |          |            
-DOCENTES_SUL       |    11,08 |   35,99  |          |            
-ESCOLAS            |     2,50 |    9,27  |          |            
-GESTOR             |     1,61 |    3,71  |          |            
-TURMAS             |     7,42 |   27,41  |          |            
-MATRICULA_CO       |    19,04 |   59,06  |          |            
-MATRICULA_NORDESTE | 1.810,51 |     -    |          |            
-MATRICULA_NORTE    |    31.73 |   74,97  |          |            
-MATRICULA_SUDESTE  | 3.103,85 |     -    |          |            
-MATRICULA_SUL      |    56,18 |     -    |          |            
+DOCENTES_CO        |     5,37 |   17,97  |    40,13 |      4,23 
+DOCENTES_NORDESTE  |    14,04 |   53,79  |   133,05 |      6,17       
+DOCENTES_NORTE     |     6,37 |   21,31  |    47,90 |      2,85      
+DOCENTES_SUDESTE   |    33,08 |   83,83  |   206,15 |      9,10       
+DOCENTES_SUL       |     7,97 |   34,14  |    75,37 |      4,72       
+ESCOLAS            |     2,66 |    9,18  |    17,53 |      1,74      
+GESTOR             |     1,30 |    2,72  |     5,94 |      0,72      
+TURMAS             |     5,45 |   26,47  |    64,62 |      4,28      
+MATRICULA_CO       |    16,40 |   55,61  |   122,14 |      9,29       
+MATRICULA_NORDESTE | 1.407,40 |     -    | 1.747,50 |     30,72        
+MATRICULA_NORTE    |    23,89 |   74,22  |   202,72 |     12,21      
+MATRICULA_SUDESTE  | 3.103,85 |     -    |      -   |     60,73        
+MATRICULA_SUL      |    53,30 |     -    |   250,81 |     16,06       
 
-Vale ressaltar que o `readr` não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco.
+Vale ressaltar que o `readr` não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco. A biblioteca `utils`, do Base do R, não conseguiu ler o `MATRICULA_SUDESTE`, o maior conjunto de dados analisado aqui neste post.
