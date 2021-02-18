@@ -133,7 +133,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["parquet.png","parquet_files/anchor-4.2.2/anchor.min.js","parquet_files/bowser-1.9.3/bowser.min.js","parquet_files/distill-2.2.21/template.v2.js","parquet_files/header-attrs-2.6/header-attrs.js","parquet_files/jquery-1.11.3/jquery.min.js","parquet_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["compara_leitura_csv.png","compara_leitura_csv_arrow_datatable.png","parquet.png","parquet_files/anchor-4.2.2/anchor.min.js","parquet_files/bowser-1.9.3/bowser.min.js","parquet_files/distill-2.2.21/template.v2.js","parquet_files/header-attrs-2.6/header-attrs.js","parquet_files/jquery-1.11.3/jquery.min.js","parquet_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2610,7 +2610,7 @@ Coréia do Sul e Japão,Brasil,2002
 <p>Outro fato que chama atenção é que, mesmo quando se tem conjunto de dados com os mesmo registros e colunas porém salvos em formato diferentes, a leitura de arquivos parquet é mais rápida que de arquivos csv, este último chegando a ter leitura 28 vezes mais demorada, sendo que na maioria das vezes demora em média o dobro do tempo de leitura.</p>
 <p>Ainda, vale destacar que para tarefas, onde na maioria das vezes não são utilizadas todas as colunas do conjunto de dados para conduzir uma análise, o fato do parquet ser um formato de arquivo orientado a colunas, pode ser lido somente as colunas de interesse, diminuindo assim o tempo de leitura do arquivo, bem como consumindo menos recursos computacional, levando novamente vantagem em relação ao <code>csv</code> que teria que varrer todo o conjunto de dados para depois manter somente as colunas de interesse, resultando em gasto de tempo e de recurso computacional.</p>
 <h2 id="bônus---carregando-os-arquivos-csv-no-ambiente-r-com-outras-bibliotecas">Bônus - Carregando os arquivos <code>csv</code> no ambiente R com outras bibliotecas</h2>
-<p>Além da <code>arrow</code>, outras biblioteca também disponibilizam funções para leituras de arquivos <code>csv</code>. O próprio R Base tem a função <code>read.delim()</code> (da biblioteca <code>utils</code>) para ler arquivos no formato de valores separados por caracter, conforme script abaixo:</p>
+<p>Além da <code>arrow</code>, que possui a `<code>read_delim_arrow</code>, outras biblioteca também disponibilizam funções para leituras de arquivos <code>csv</code>. O próprio R Base tem a função <code>read.delim()</code> (da biblioteca <code>utils</code>) para ler arquivos no formato de valores separados por caracter, conforme script abaixo:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>matricula_NE &lt;-<span class="st"> </span>utils<span class="op">::</span><span class="kw">read.delim</span>(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="dt">file =</span> <span class="st">&quot;./microdados_educacao_basica_2019/DADOS/DOCENTES_CO.CSV&quot;</span>,</span>
 <span id="cb6-3"><a href="#cb6-3"></a>  <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span></span>
@@ -2724,13 +2724,19 @@ Coréia do Sul e Japão,Brasil,2002
 <tr class="odd">
 <td>MATRICULA_SUL</td>
 <td style="text-align: right;">53,30</td>
-<td style="text-align: right;">-</td>
+<td style="text-align: right;">91,75</td>
 <td style="text-align: right;">250,81</td>
 <td style="text-align: right;">16,06</td>
 </tr>
 </tbody>
 </table>
-<p>Vale ressaltar que o <code>readr</code> não conseguiu ler o arquivo <code>MATRICULA_NORDESTE</code>, <code>MATRICULA_SUDESTE</code> e <code>MATRICULA_SUL</code>, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco. A biblioteca <code>utils</code>, do Base do R, não conseguiu ler o <code>MATRICULA_SUDESTE</code>, o maior conjunto de dados analisado aqui neste post.</p>
+<p>Vale ressaltar que o <code>readr</code> não conseguiu ler os arquivos <code>MATRICULA_NORDESTE</code> e <code>MATRICULA_SUDESTE</code>, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco. A biblioteca <code>utils</code>, do Base do R, não conseguiu ler o <code>MATRICULA_SUDESTE</code>, o maior conjunto de dados analisado aqui neste post.</p>
+<p>Veja o gráfico a seguir (elaborado em <code>ggplot2</code>, claro!) com o tempo de leitura (em segundos) dos microdados do Censo Escolar 2019 em formato csv, realizadas através de funções de quatro bibliotecas diferentes do R. Vale ressaltar que não foram plotados os tempos de leituras dos conjuntos de dados por questões de escala.</p>
+<p><img src="compara_leitura_csv.png" align="center"/></p>
+<p>Entre as 4 funções comparadas, a <code>read.delim()</code> da biblioteca <code>utils</code> se destava como a que mais demorou para ler os arquivos nos formatos <code>csv</code>, seguida pela <code>read_delim()</code> do <code>readr</code>. Já a função <code>read_delim_arrow</code> apresentou tempo de leitura próximo a da <code>fread</code> da biblioteca <code>data.table</code>, porém, à medida que o conjunto de dados ia se tornando mais massivo, a performance do <code>arrow</code> diminuia significativamente, enquanto o <code>data.table</code> se manteve robusto em termos de tempo de leitura dos <code>csv</code>.</p>
+<p>Veja a seguir comparação somente entre <code>arrow</code> e <code>data.table</code>, porém agora considerando todos os conjuntos de dados:</p>
+<p><img src="compara_leitura_csv_arrow_datatable.png" align="center"/></p>
+<p>Enfim, para este experimento, realizado com os 13 conjuntos de dados do Censo Escolar 2019, o <code>data.table</code> foi o campeão em termos de leitura de conjunto de dados separados por caracteres através da função <code>fread</code>, pois se manteve performático, mesmo quando o conjuntos era bastante massivo.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">

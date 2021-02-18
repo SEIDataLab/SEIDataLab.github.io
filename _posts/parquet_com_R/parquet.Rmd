@@ -172,7 +172,7 @@ Ainda, vale destacar que para tarefas, onde na maioria das vezes não são utili
 
 ## Bônus - Carregando os arquivos `csv` no ambiente R com outras bibliotecas
 
-Além da `arrow`, outras biblioteca também disponibilizam funções para leituras de arquivos `csv`. O próprio R Base tem a função `read.delim()` (da biblioteca `utils`) para ler arquivos no formato de valores separados por caracter, conforme script abaixo:
+Além da `arrow`, que possui a ``read_delim_arrow`, outras biblioteca também disponibilizam funções para leituras de arquivos `csv`. O próprio R Base tem a função `read.delim()` (da biblioteca `utils`) para ler arquivos no formato de valores separados por caracter, conforme script abaixo:
 
 ``` {.r}
 matricula_NE <- utils::read.delim(
@@ -215,6 +215,18 @@ MATRICULA_CO       |    16,40 |   55,61  |   122,14 |      9,29
 MATRICULA_NORDESTE | 1.407,40 |     -    | 1.747,50 |     30,72        
 MATRICULA_NORTE    |    23,89 |   74,22  |   202,72 |     12,21      
 MATRICULA_SUDESTE  | 3.103,85 |     -    |      -   |     60,73        
-MATRICULA_SUL      |    53,30 |     -    |   250,81 |     16,06       
+MATRICULA_SUL      |    53,30 |   91,75  |   250,81 |     16,06       
 
-Vale ressaltar que o `readr` não conseguiu ler o arquivo `MATRICULA_NORDESTE`, `MATRICULA_SUDESTE` e `MATRICULA_SUL`, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco. A biblioteca `utils`, do Base do R, não conseguiu ler o `MATRICULA_SUDESTE`, o maior conjunto de dados analisado aqui neste post.
+Vale ressaltar que o `readr` não conseguiu ler os arquivos `MATRICULA_NORDESTE` e `MATRICULA_SUDESTE`, justamente os mais massivos, tanto em termos de número de registros, quanto em termos de tamanho em disco. A biblioteca `utils`, do Base do R, não conseguiu ler o `MATRICULA_SUDESTE`, o maior conjunto de dados analisado aqui neste post.
+
+Veja o gráfico a seguir (elaborado em `ggplot2`, claro!) com o tempo de leitura (em segundos) dos microdados do Censo Escolar 2019 em formato csv, realizadas através de funções de quatro bibliotecas diferentes do R. Vale ressaltar que não foram plotados os tempos de leituras dos conjuntos de dados por questões de escala.
+
+<img src="compara_leitura_csv.png" align="center"/>
+
+Entre as 4 funções comparadas, a `read.delim()` da biblioteca `utils` se destava como a que mais demorou para ler os arquivos nos formatos `csv`, seguida pela `read_delim()` do `readr`. Já a função `read_delim_arrow` apresentou tempo de leitura próximo a da `fread` da biblioteca `data.table`, porém, à medida que o conjunto de dados ia se tornando mais massivo, a performance do `arrow` diminuia significativamente, enquanto o `data.table` se manteve robusto em termos de tempo de leitura dos `csv`.
+
+Veja a seguir comparação somente entre `arrow` e `data.table`, porém agora considerando todos os conjuntos de dados:
+
+<img src="compara_leitura_csv_arrow_datatable.png" align="center"/>
+
+Enfim, para este experimento, realizado com os 13 conjuntos de dados do Censo Escolar 2019, o `data.table` foi o campeão em termos de leitura de conjunto de dados separados por caracteres através da função `fread`, pois se manteve performático, mesmo quando o conjuntos era bastante massivo.
